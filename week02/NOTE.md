@@ -15,6 +15,7 @@ Number:
     - 0xFF
 
 2. 写一个 UTF-8 Encoding 的函数
+
     <code>
     function UTF8_Encoding(string){
         //return new Buffer();
@@ -43,11 +44,15 @@ Number:
         return utfcode
     }
     </code>
+
 3. 写一个正则表达式，匹配所有的字符串直接量，单引号和双引号
 
 `<LS>行分隔符 code unit 0x2028`
+
 `<PS>段落分隔符 code unit 0x2029`
+
 `0 code unit 0x0000`
+
 `"(?:[^"\n\\\r\u2028\u2029]|\\(?:['"\\bfnrtv\n\r\u2028\u2029]|\r\n)|\\x[0-9a-fA-F]{2}|\\u[0-9afA-F]{4}|\\[^0-9ux'"\\bfnrtv\n\\\r\u2028\u2029])*"`
 
 4. 完成一篇本周的学习总结
