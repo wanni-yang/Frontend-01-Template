@@ -16,7 +16,7 @@ Number:
 
 2. 写一个 UTF-8 Encoding 的函数
 
-    <code>
+```
     function UTF8_Encoding(string){
         //return new Buffer();
         var utfcode = [];
@@ -43,7 +43,7 @@ Number:
         }
         return utfcode
     }
-    </code>
+```
 
 3. 写一个正则表达式，匹配所有的字符串直接量，单引号和双引号
 
