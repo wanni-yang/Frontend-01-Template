@@ -24,11 +24,9 @@
 <AdditiveExpression> ::= <Decimalnumber> "+" <Decimalnumber>         1
 <AdditiveExpression> ::= <AdditiveExpression> "+" <Decimalnumber>    2
 ```
-
   - 支持一个数字的加法表达式
 `<AdditiveExpression> ::= <Decimalnumber>                             3`
 2和3合并
-
   - 支持加法1
 `<AdditiveExpression> ::= <Decimalnumber> | `
 `                         <AdditiveExpression> "+" <Decimalnumber>`
