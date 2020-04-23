@@ -19,8 +19,11 @@
 0或者
 0以外的为第一位后面跟个Number 1 235465657798
 - 推导3
-`<AdditiveExpression> ::= <Decimalnumber> "+" <Decimalnumber>         1`
-`<AdditiveExpression> ::= <AdditiveExpression> "+" <Decimalnumber>    2`
+  
+```
+<AdditiveExpression> ::= <Decimalnumber> "+" <Decimalnumber>         1
+<AdditiveExpression> ::= <AdditiveExpression> "+" <Decimalnumber>    2
+```
 
   - 支持一个数字的加法表达式
 `<AdditiveExpression> ::= <Decimalnumber>                             3`
@@ -45,23 +48,26 @@
 `                               <MultiplicativeExpression> "/" <PrimaryExpression>`                       
 1 + 2 * 3
 左项式1，右项式2*3，加法可以用两个乘法表达式表示
-  - 支持加法
-`<AdditiveExpression> ::= <MultiplicativeExpression> | `
-`                         <AdditiveExpression> "+" <MultiplicativeExpression>`
- - 支持减法
-`<AdditiveExpression> ::= <MultiplicativeExpression> | `
-`                        <AdditiveExpression> "+" <MultiplicativeExpression> |`
-`                        <AdditiveExpression> "-" <MultiplicativeExpression>`
-  - 逻辑运算
-`<LogicalExpression> ::= <AdditiveExpression> | `
-`            <LogicalExpression> "||" <AdditiveExpression> |`
-`            <LogicalExpression> "&&" <AdditiveExpression> `
-  -  支持括号
-`<PrimaryExpression> = <Decimalnumber> |`
-`        "(" <LogicalExpression> ")"`
-将上述产生式中<Decimalnumber>替换为<PrimaryExpression>
+  
+```
+- 支持加法
+<AdditiveExpression> ::= <MultiplicativeExpression> | 
+                        <AdditiveExpression> "+" <MultiplicativeExpression>
+- 支持减法
+<AdditiveExpression> ::= <MultiplicativeExpression> | 
+                       <AdditiveExpression> "+" <MultiplicativeExpression> |
+                       <AdditiveExpression> "-" <MultiplicativeExpression>
+- 逻辑运算
+<LogicalExpression> ::= <AdditiveExpression> | 
+            <LogicalExpression> "||" <AdditiveExpression> |
+            <LogicalExpression> "&&" <AdditiveExpression> 
+-  支持括号
+<PrimaryExpression> = <Decimalnumber> |
+        "(" <LogicalExpression> ")"
+```
+将上述产生式中`<Decimalnumber>`替换为`<PrimaryExpression>`
 终结符, 如: "+"
-非终结符: 如:  <LogicalExpression>
+非终结符: 如:  `<LogicalExpression>`
   -  正则文法做四则运算
 `<Decimalnumber> = /0|[1-9]|[0-9]+/`
 
