@@ -23,31 +23,31 @@
 ```
 <AdditiveExpression> ::= <Decimalnumber> "+" <Decimalnumber>         1
 <AdditiveExpression> ::= <AdditiveExpression> "+" <Decimalnumber>    2
-```
+
   - 支持一个数字的加法表达式
 `<AdditiveExpression> ::= <Decimalnumber>                             3`
-2和3合并
+```
+  2和3合并
+```
   - 支持加法1
-`<AdditiveExpression> ::= <Decimalnumber> | `
-`                         <AdditiveExpression> "+" <Decimalnumber>`
+<AdditiveExpression> ::= <Decimalnumber> | 
+                         <AdditiveExpression> "+" <Decimalnumber>
   - 支持乘法
-`<MultiplicativeExpression> ::= <Decimalnumber> | `
-`                               <MultiplicativeExpression> "*" <Decimalnumber>`
+<MultiplicativeExpression> ::= <Decimalnumber> | 
+                               <MultiplicativeExpression> "*" <Decimalnumber>
   - 支持括号                 
-`<MultiplicativeExpression> ::= <Decimalnumber> | `
-`                              <MultiplicativeExpression> "*" <PrimaryExpression>`
+<MultiplicativeExpression> ::= <Decimalnumber> | 
+                              <MultiplicativeExpression> "*" <PrimaryExpression>
   - 支持除法
-`<MultiplicativeExpression> ::= <PrimaryExpression> | `
-`                              <MultiplicativeExpression> "*" <Decimalnumber>`
-`                               <MultiplicativeExpression> "/" <Decimalnumber>`
+<MultiplicativeExpression> ::= <PrimaryExpression> | 
+                              <MultiplicativeExpression> "*" <Decimalnumber>
+                               <MultiplicativeExpression> "/" <Decimalnumber>
   - 支持括号
-`<MultiplicativeExpression> ::= <PrimaryExpression> | `
-`                              <MultiplicativeExpression> "*" <PrimaryExpression>`
-`                               <MultiplicativeExpression> "/" <PrimaryExpression>`                       
+<MultiplicativeExpression> ::= <PrimaryExpression> | 
+                              <MultiplicativeExpression> "*" <PrimaryExpression>
+                               <MultiplicativeExpression> "/" <PrimaryExpression>                     
 1 + 2 * 3
 左项式1，右项式2*3，加法可以用两个乘法表达式表示
-  
-```
 - 支持加法
 <AdditiveExpression> ::= <MultiplicativeExpression> | 
                         <AdditiveExpression> "+" <MultiplicativeExpression>
