@@ -1,65 +1,56 @@
 ## 随堂记录
 [浮点数在内存布局](https://www.yuque.com/yangxiaomie/zu16ge/opaz72)
-
+[课程代码片段](https://github.com/wanni-yang/Frontend-01-Template/blob/master/week03/class_exercise.html)
+## 笔记
+[表达式](https://www.yuque.com/yangxiaomie/zu16ge/clq7pn/edit)
+[语句、类型转换]()
 ## 作业
 1. JavaScript | 表达式，类型准换
 根据这节课上讲师已写好的部分，补充写完函数 convertStringToNumber
 以及函数 convertNumberToString
-'''
-    /**
-    * @param {number} number
-    * @param {number} x
-    * @return {string}
-    */
+```
     function convertNumberToString(number, x = 10) {
-    let integer = Math.floor(number);
-    let decimal = number - integer;
-    let string = !integer ? '0' : '';
-    while (integer > 0) {
-        string = `${integer % x}${string}`;
-        integer = Math.floor(integer / x);
-    }
-
-    if (decimal) {
-        string += '.';
-        while (decimal && !/\.\d{20}$/.test(string)) { // 最大保留20位小数
-        decimal *= x;
-        string += `${Math.floor(decimal)}`;
-        decimal -= Math.floor(decimal);
+        let integer = Math.floor(number);
+        let decimal = number - integer;
+        let string = !integer ? '0' : '';
+        while (integer > 0) {
+            string = `${integer % x}${string}`;
+            integer = Math.floor(integer / x);
         }
-    }
-    return string;
+
+        if (decimal) {
+            string += '.';
+            while (decimal && !/\.\d{20}$/.test(string)) { // 最大保留20位小数
+            decimal *= x;
+            string += `${Math.floor(decimal)}`;
+            decimal -= Math.floor(decimal);
+            }
+        }
+        return string;
     }
     console.log(convertNumberToString(0, 10));  // "0"
     console.log(convertNumberToString(123.456, 10)); // "123.45600000000000306954"
     console.log(convertNumberToString(10.25, 8)); // "12.2"
     console.log(convertNumberToString(16.5, 16)); // "10.8"
+    function convertStringToNumber(chars, x = 10) {
+        if (!/^(0\.?|0?\.\d+|[1-9]\d*\.?\d*?)$/.test(chars)) {
+        throw Error(`${chars} 并不是一个合法的数字`);
+        }
+        const zeroCodePoint = '0'.codePointAt(0);
+        let integer = 0;
+        let i = 0;
+        for (; i < chars.length && chars[i] !== '.'; i++) {
+        integer *= x;
+        integer += chars[i].codePointAt(0) - zeroCodePoint;
+        }
 
-    /**
-    * @param {string} chars
-    * @param {number} x
-    * @return {number}
-    */
-   function convertStringToNumber(chars, x = 10) {
-     if (!/^(0\.?|0?\.\d+|[1-9]\d*\.?\d*?)$/.test(chars)) {
-       throw Error(`${chars} 并不是一个合法的数字`);
-     }
-     const zeroCodePoint = '0'.codePointAt(0);
-     let integer = 0;
-     let i = 0;
-     for (; i < chars.length && chars[i] !== '.'; i++) {
-       integer *= x;
-       integer += chars[i].codePointAt(0) - zeroCodePoint;
-     }
-
-     let decimal = 0;
-     for (let j = chars.length - 1; i < j; j--) {
-       decimal += chars[j].codePointAt(0) - zeroCodePoint;
-       decimal /= x;
-     }
-     return integer + decimal;
+        let decimal = 0;
+        for (let j = chars.length - 1; i < j; j--) {
+        decimal += chars[j].codePointAt(0) - zeroCodePoint;
+        decimal /= x;
+        }
+        return integer + decimal;
    }
-
    console.log(convertStringToNumber('123.9')); // 12.9
    console.log(convertStringToNumber('.0'));  // 0
    console.log(convertStringToNumber('9.'));  // 9
@@ -67,8 +58,8 @@
    console.log(convertStringToNumber('123.4', 8));  // 83.5
    console.log(convertStringToNumber('11.4', 16));  // 17.25
    console.log(convertStringToNumber('01'));  // error
-'''
-2. JavaScript | 语句，对象
+```
+1. JavaScript | 语句，对象
 根据课上老师的示范，找出 JavaScript 标准里所有的对象，分析有哪些对象是我们无法实现出来的，这些对象都有哪些特性？写一篇文章，放在学习总结里。
  #### Bound Function Exotic Objects
  - properties
