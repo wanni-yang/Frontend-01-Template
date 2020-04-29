@@ -3,7 +3,7 @@
  - [课程代码片段](https://github.com/wanni-yang/Frontend-01-Template/blob/master/week03/class_exercise.html)
 ## 笔记
  - [表达式](https://www.yuque.com/yangxiaomie/zu16ge/clq7pn/edit)
- - [语句、类型转换]()
+ - [语句、类型转换](https://www.yuque.com/yangxiaomie/zu16ge/ui105x/edit)
 ## 作业
 1. JavaScript | 表达式，类型准换
 根据这节课上讲师已写好的部分，补充写完函数 convertStringToNumber
