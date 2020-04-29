@@ -1,9 +1,9 @@
 ## 随堂记录
-[浮点数在内存布局](https://www.yuque.com/yangxiaomie/zu16ge/opaz72)
-[课程代码片段](https://github.com/wanni-yang/Frontend-01-Template/blob/master/week03/class_exercise.html)
+ - [浮点数在内存布局](https://www.yuque.com/yangxiaomie/zu16ge/opaz72)
+ - [课程代码片段](https://github.com/wanni-yang/Frontend-01-Template/blob/master/week03/class_exercise.html)
 ## 笔记
-[表达式](https://www.yuque.com/yangxiaomie/zu16ge/clq7pn/edit)
-[语句、类型转换]()
+ - [表达式](https://www.yuque.com/yangxiaomie/zu16ge/clq7pn/edit)
+ - [语句、类型转换]()
 ## 作业
 1. JavaScript | 表达式，类型准换
 根据这节课上讲师已写好的部分，补充写完函数 convertStringToNumber
@@ -48,7 +48,7 @@
         return integer + decimal;
    }
 ```
-1. JavaScript | 语句，对象
+2. JavaScript | 语句，对象
 根据课上老师的示范，找出 JavaScript 标准里所有的对象，分析有哪些对象是我们无法实现出来的，这些对象都有哪些特性？写一篇文章，放在学习总结里。
  #### Bound Function Exotic Objects
  - properties
