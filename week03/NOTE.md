@@ -28,10 +28,6 @@
         }
         return string;
     }
-    console.log(convertNumberToString(0, 10));  // "0"
-    console.log(convertNumberToString(123.456, 10)); // "123.45600000000000306954"
-    console.log(convertNumberToString(10.25, 8)); // "12.2"
-    console.log(convertNumberToString(16.5, 16)); // "10.8"
     function convertStringToNumber(chars, x = 10) {
         if (!/^(0\.?|0?\.\d+|[1-9]\d*\.?\d*?)$/.test(chars)) {
         throw Error(`${chars} 并不是一个合法的数字`);
@@ -51,13 +47,6 @@
         }
         return integer + decimal;
    }
-   console.log(convertStringToNumber('123.9')); // 12.9
-   console.log(convertStringToNumber('.0'));  // 0
-   console.log(convertStringToNumber('9.'));  // 9
-   console.log(convertStringToNumber('110000', 2));  // 48 
-   console.log(convertStringToNumber('123.4', 8));  // 83.5
-   console.log(convertStringToNumber('11.4', 16));  // 17.25
-   console.log(convertStringToNumber('01'));  // error
 ```
 1. JavaScript | 语句，对象
 根据课上老师的示范，找出 JavaScript 标准里所有的对象，分析有哪些对象是我们无法实现出来的，这些对象都有哪些特性？写一篇文章，放在学习总结里。
