@@ -1,0 +1,51 @@
+<!--浮点数在内存中的表示-->
+<div id="app">
+    <span v-for="v, i of bits">
+      <input :class="i > 0 ? i > 11 ? 'fraction' :'exponent':'sign' "  type="number" min=0 max=1 v-model="bits[i]"/>
+      <input v-if="i == 31" />
+      <br v-if="i == 31" />
+    </span>
+    <br />
+    <input style="width:5em;" v-model="value"/>
+    
+</div>
+<script>
+window.vm = new Vue({
+    el: '#app',
+    data: {
+      bits: Array(65).join(0).split("").map(v => Number(v)),
+      value: 0
+    },
+    watch: {
+      value(val){
+        const bytes = new Uint8Array(8);
+        const memory = new Float64Array(bytes.buffer);
+        memory[0] = (val);
+        console.log("******");
+        for(var i = 0; i < 8; i++) {
+          var byte = bytes[i]
+          console.log(byte);
+          for(var j = 0; j < 8; j ++) {
+              this.bits[(8 - i) * 8 - j - 1] = byte & 1;
+              byte = byte >> 1;
+          }
+        }
+      }
+    }
+  })
+</script>
+<script>
+    // 判断正0 负0
+    function check(zero){
+        if(1/zero === Infinity){
+            return 1;
+        }
+        if(1/zero === -Infinity){
+            return -1;
+        }_
+    }
+    function sign(number){
+        return number / Math.abs(number)
+    }
+    //sign(0) -> NaN
+</script>

@@ -1,0 +1,49 @@
+<script>
+    for(var i = 0;i < 128; i++){
+        document.write(i + ": <span style = 'background-color:lightgreen'>"+String.fromCharCode(i)+"</span></br>")
+    }
+    // 中文做变量名
+    var 厉害 = 1;
+    console.log(厉害)
+    //查字符的unicode值
+    var unicode_li = '厉害'.charCodeAt(0).toString(16);
+    var unicode_hai = '厉害'.charCodeAt(1).toString(16);
+    console.log(unicode_li,unicode_hai)
+    var \u5389\u5bb3 = 2;
+    console.log(厉害)
+    // identifier 用作属性名
+    document.body.setAttribute('class','aa');
+    console.log(document.body.className)
+    console.log(document.body.class)//undefiend
+    // undefined 没有设计成关键字
+    var undefiend
+    var undefiend = 5;
+    void function(){
+        var undefiend = 3;
+        console.log(undefiend) // 3
+    }
+    //Number
+    // 浮点数的计算精度
+    Math.abs(0.1+0.2-0.3) <= Number.EPSILON
+    console.log(0010) // 8 已经抛弃
+    console.log(0o10) // 8
+    parseInt('100',2)
+    parseInt('09') // 9
+    //String
+    console.log(97 .toString(2))//01100001
+    /*
+    ``此处被引擎拆解为
+    `I said "${
+    s
+    }","${
+    s1
+    }"`
+    */
+    var s = 'hi';
+    `I said "${s}","${s1}"`
+    // 正则直接量
+    var a;
+    //a除以a除以g 1/g,没有加分号，能插除号的地方就是除法，否则就是正则
+    a
+    /a/g
+</script>
