@@ -1,0 +1,15 @@
+<script>
+   //block:块作用域。顺次执行语句list，正常执行结果是normal,blockb内部语句有非normal的情况（throw return continue）就会中段
+   //改变语句执行顺序
+   
+   {
+       const a = 1;
+   } 
+   // 6种循环
+   for(let i = 0; i < 10; i++){
+       console.log(i)
+   }
+   for(let i = 0; i < 10; i++){
+       console.log(i)
+   }
+</script>
