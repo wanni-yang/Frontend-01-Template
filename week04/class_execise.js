@@ -26,3 +26,18 @@ new Promise(res => res())
             console.log(0)
     );
 console.log(2);
+async function async1(){
+    console.log('async 1 start');
+    await async2();
+    console.log('async 1 end');
+}
+async function async2(){
+    console.log('async 2');
+}
+async1();
+new Promise(function(resolve){
+    console.log("promise 1");
+    resolve();
+}).then(function(){
+    console.log("promise 2")
+})

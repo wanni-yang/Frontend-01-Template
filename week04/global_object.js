@@ -48,57 +48,46 @@ var globalProperties = [
     "JSON",
     "Math",
     "Reflect"];
-// objects.forEach(o => set.add(o));
-
-// for(var i = 0; i < objects.length; i++) {
-//     var o = objects[i]
-//     for(var p of Object.getOwnPropertyNames(o)) {
-//         var d = Object.getOwnPropertyDescriptor(o, p)
-//         if( (d.value !== null && typeof d.value === "object") || (typeof d.value === "function"))
-//             if(!set.has(d.value))
-//                 set.add(d.value), objects.push(d.value);
-//         if( d.get )
-//             if(!set.has(d.get))
-//                 set.add(d.get), objects.push(d.get);
-//         if( d.set )
-//             if(!set.has(d.set))
-//                 set.add(d.set), objects.push(d.set);
-//     }
-// }
 let queue = [];
-for()
+for(var p of globalProperties){
+    queue.push({
+        path:[p],
+        object:this[p]
+    });
+}
 let current;
 
 while(queue.length){
     current = queue.shift();
-    console.log(current.path.join('.'))
-    if(set.has(current.object)){
+    console.log(current.path.join('.'));
+    // 做哈希
+    if(set.has(current.object))
         continue;
-    }
-    let proto = Object.
+    // let property = Object.getOwnPropertyDescriptor(current,p)
     set.add(current.object);
+    // console.log(current)
     for(let p of Object.getOwnPropertyNames(current.object)){
         var property = Object.getOwnPropertyDescriptor(current.object,p);
 
         if(property.hasOwnProperty("value") && 
         ((property.value != null) && (typeof property.value == "object") 
-        || (typeof property.value == "function")) && property.valuee instanceof Object){
+        || (typeof property.value == "function")) && property.value instanceof Object){
             queue.push({
                 path: current.path.concat([p]),
-                Object:property.value
+                object:property.value
             })
         }
             
         if(property.hasOwnProperty("get") && typeof property.value == "function"){
             queue.push({
                 path: current.path.concat([p]),
-                Object:property.get
+                object:property.get
             })
         }
         if(property.hasOwnProperty("set") && typeof property.value == "function")
         queue.push({
             path: current.path.concat([p]),
-            Object:property.set
+            object:property.set
         })
     }
 
