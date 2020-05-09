@@ -1,4 +1,3 @@
-
 var set = new Set();
 var globalProperties = [
     "eval",
@@ -49,23 +48,27 @@ var globalProperties = [
     "Math",
     "Reflect"];
 let queue = [];
+let children = [];
 for(var p of globalProperties){
     queue.push({
         path:[p],
         object:this[p]
     });
+    
 }
 let current;
-
+let div = document.createElement("div");
+document.body.appendChild(div);
 while(queue.length){
     current = queue.shift();
-    console.log(current.path.join('.'));
+    let bb = document.createElement('div');
+    let cc = document.createTextNode(current.path.join("."))
+    div.appendChild(bb).appendChild(cc)
+    // console.log(current.path.join(","));
     // 做哈希
     if(set.has(current.object))
         continue;
-    // let property = Object.getOwnPropertyDescriptor(current,p)
     set.add(current.object);
-    // console.log(current)
     for(let p of Object.getOwnPropertyNames(current.object)){
         var property = Object.getOwnPropertyDescriptor(current.object,p);
 
@@ -79,6 +82,7 @@ while(queue.length){
         }
             
         if(property.hasOwnProperty("get") && typeof property.value == "function"){
+            console.log(p)
             queue.push({
                 path: current.path.concat([p]),
                 object:property.get
@@ -92,7 +96,3 @@ while(queue.length){
     }
 
 }
-// Antv G6可视化 https://g6.antv.vision/en/
-var iframe = document.createElement("iframe");
-document.body.appendChild(iframe);
-iframe.contentWindow.Object.prototype
