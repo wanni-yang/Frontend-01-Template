@@ -41,3 +41,10 @@ new Promise(function(resolve){
 }).then(function(){
     console.log("promise 2")
 })
+//0509
+"s123cript".match(/(123)/);
+"s123cript".match();
+//正则求最小公倍数 正常匹配和正则和字符串成正比，时间复杂度O(n),\1 带回溯时间复杂度不确定
+"aaaaaa".match(/(aaa)\1+/);
+"aaaaaa".match(/(a?a)\1+/);
+"aaaaaa".match(/(a|a-z|a)\1+/);
