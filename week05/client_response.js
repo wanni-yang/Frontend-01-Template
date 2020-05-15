@@ -56,8 +56,11 @@ ${this.bodyText}`
                  new Response(data);
                 */
                 parser.recieve(data.toString());
-                console.log(parser.statusLine);
+                // console.log(parser.statusLine);
                 // resolve(data.toString());
+                if(parser.isFinished){
+                   resolve(parser.response);
+                }
                 connection.end();
             });
             connection.on('error', (err) => {
@@ -107,6 +110,18 @@ class ResponseParse {
         this.headerValue = "";
         // 初始化bodyparser在header处理完后创建
         this.bodyParser = null;
+    }
+    get isFinished(){
+        return this.bodyParser && this.bodyParser.isFinished;
+    }
+    get response(){
+        this.statusLine.match(/HTTP\/1.1 ([0-9]+) ([\s\S]+)/);
+        return{
+            statusCode: RegExp.$1,
+            statusText: RegExp.$2,
+            headers: this.headers,
+            body: this.bodyParser.content.join('')
+        }
     }
     // 字符流处理
     recieve(string) {
@@ -196,10 +211,9 @@ class TrunkedBodyParser {
         // console.log(JSON.stringify(char))
         
         if (this.current === this.WAITING_LENGTH) {
-            console.log(char);
+            // console.log(char);
             if (char === '\r') {
                 if (this.length === 0) {
-                    console.log('////////');
                     this.isFinished = true;
                 }
                 this.current = this.WAITING_LENGTH_LINE_END;
@@ -218,11 +232,11 @@ class TrunkedBodyParser {
             if (this.length === 0) {
                 this.current = this.WAITING_NEW_LINE;
             }
-        }else if (this.current = this.WAITING_NEW_LINE) {
+        }else if (this.current === this.WAITING_NEW_LINE) {
             if (char === '\r') {
                 this.current = this.WAITING_NEW_LINE_END;
             }
-        }else if(this.current = this.WAITING_NEW_LINE_END) {
+        }else if(this.current === this.WAITING_NEW_LINE_END) {
             if (char === '\n') {
                 this.current = this.WAITING_LENGTH;
             }
