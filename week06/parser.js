@@ -1,3 +1,5 @@
+const cssHelper = require('./css_help')
+const EOF = Symbol("EOF") //EOF:End of file
 // constructTree
 
 let currentToken = null
@@ -50,7 +52,7 @@ function emit(token) {
         }
     }
 }
-const EOF = Symbol("EOF") //EOF:End of file
+
 function data(c) {
     if (c === '<') {
         return tagOpen;
