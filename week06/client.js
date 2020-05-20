@@ -1,6 +1,6 @@
 //http client
-const net = require('net')
-
+const net = require('net');
+const parser = require("./parser.js");
 //net.socket
 class Request {
     //method,url = host + port + path
