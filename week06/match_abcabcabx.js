@@ -31,23 +31,24 @@ function foundB(c){
 
 }
 function foundC(c){
-    if(c === 'd')
-        return foundD;
+    if(c === 'a')
+        return foundA2;
     else
         return start(c);
 
 }
-function foundD(c){
-    if(c === 'e')
-        return foundE;
+function foundA2(c){
+    if(c === 'b')
+        return foundB2;
     else
         return start(c);
 
 }
-function foundE(c){
-    if(c === 'f')
+function foundB2(c){
+    if(c === 'x')
         return end;
     else
-        return start(c);
+        return foundB(c);
 
 }
+console.log(match('abcabcabx'));
