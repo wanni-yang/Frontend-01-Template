@@ -4,9 +4,10 @@ function match(string){
   let foundC = false;
   let foundD = false;
   let foundE = false;
+  let result = [];
   for(let c of string){
   	if(c == 'a')
-      foundA = true
+      foundA = true;
     else if(foundA & c == 'b')
       foundB = true
     else if(foundB & c == 'c')
@@ -27,4 +28,6 @@ function match(string){
     
   }
 }
-console.log(match('afergtrhc'))
+// console.log(match('abcdef'))// true
+// console.log(match('aabbccddeeff'))// true
+console.log(match('aabcdef'))// true

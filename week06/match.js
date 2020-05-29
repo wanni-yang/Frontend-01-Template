@@ -21,33 +21,29 @@ function foundA(c){
     else
         // return start;
         return start(c);//把本状态（foundA）代理到start状态
-
 }
 function foundB(c){
     if(c === 'c')
         return foundC;
     else
         return start(c);
-
 }
 function foundC(c){
     if(c === 'd')
         return foundD;
     else
         return start(c);
-
 }
 function foundD(c){
     if(c === 'e')
         return foundE;
     else
         return start(c);
-
 }
 function foundE(c){
     if(c === 'f')
         return end;
     else
         return start(c);
-
 }
+match('aabbceeff')

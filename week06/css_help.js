@@ -1,7 +1,10 @@
 const css = require('css')
 
 const rules = []
-
+/**
+ * @param {string} pattern
+ * @return {object}
+ */
 // 获取一个style标签里的所有规则
 function addCssRules(text) {
   const ast = css.parse(text);
