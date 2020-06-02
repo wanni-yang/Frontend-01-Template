@@ -19,7 +19,6 @@ function foundA(c){
     if(c === 'b')
         return foundB;
     else
-        // return start;
         return start(c);//把本状态（foundA）代理到start状态
 
 }
@@ -48,6 +47,7 @@ function foundB2(c){
     if(c === 'x')
         return end;
     else
+        // 找到x说明之前是ab,但是ab之后也可能是c,所有此处应该代理回判断c的foundB
         return foundB(c);
 
 }

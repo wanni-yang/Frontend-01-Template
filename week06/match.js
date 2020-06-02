@@ -1,49 +1,33 @@
 function match(string){
-    let state = start;
-    for(let c of string){
-        state = state(c);
+	let foundA = false;
+  let foundB = false;
+  let foundC = false;
+  let foundD = false;
+  let foundE = false;
+  let result = [];
+  for(let c of string){
+  	if(c == 'a')
+      foundA = true;
+    else if(foundA & c == 'b')
+      foundB = true
+    else if(foundB & c == 'c')
+      foundC = true
+    else if(foundC & c == 'd')
+      foundD = true
+    else if(foundD & c == 'e')
+      foundE = true
+    else if(foundE & c == 'f')
+      return true;
+    else{
+      foundA = false;
+      foundB = false;
+      foundC = false;
+      foundD = false;
+      foundE = false;
     }
-    return state === end;
+    
+  }
 }
-function start(c){
-    if(c === 'a')
-        return foundA;
-    else
-        return start;
-}
-// 固定状态，进入这个状态就不可能切到其他状态，返回自身，表示最终的结果，不一定有一个结果
-function end(c){
-    return end;
-}
-function foundA(c){
-    if(c === 'b')
-        return foundB;
-    else
-        // return start;
-        return start(c);//把本状态（foundA）代理到start状态
-}
-function foundB(c){
-    if(c === 'c')
-        return foundC;
-    else
-        return start(c);
-}
-function foundC(c){
-    if(c === 'd')
-        return foundD;
-    else
-        return start(c);
-}
-function foundD(c){
-    if(c === 'e')
-        return foundE;
-    else
-        return start(c);
-}
-function foundE(c){
-    if(c === 'f')
-        return end;
-    else
-        return start(c);
-}
-match('aabbceeff')
+// console.log(match('abcdef'))// true
+// console.log(match('aabbccddeeff'))// true
+console.log(match('aabcdef'))// true
