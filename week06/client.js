@@ -259,5 +259,7 @@ void async function () {
         }
     });
     let response = await request.send();
+    // 等response处理结束才开始解析html，此处应作出generator的形式
+    let dom = parser.parseHTML(response.body);
     console.log(response);
 }();

@@ -8,7 +8,7 @@
             "name": "Run match.js",
             "type": "node",
             "request": "launch",
-            "program": "${workspaceRoot}/week06/match.js",
+            "program": "${workspaceRoot}/week06/client.js",
             "stopOnEntry": false,
             "args": [],
             "cwd": "${workspaceRoot}",
@@ -22,7 +22,6 @@
             },
             "console": "internalConsole",
             "sourceMaps": false,
-            "outFiles": ["${workspaceRoot}/week06/.js"]
         }
     ]
 }
