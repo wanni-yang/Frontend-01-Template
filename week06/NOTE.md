@@ -5,14 +5,14 @@
 # 作业
 1. 使用状态机完成'abababx'的处理
    
-    [match_abababx.js](https://github.com/wanni-yang/Frontend-01-Template/blob/master/week06/match_abababx.js)
+    [match_abababx.js](https://github.com/wanni-yang/Frontend-01-Template/blob/master/week06/FSM/match_abababx.js)
 2. 如何用状态机处理完全未知的pattern?
    <!-- 字符串KMP算法 -->
    <!-- 时间复杂度O(m+n) 状态可以用闭包生成-->
-    [match_pattern.js](https://github.com/wanni-yang/Frontend-01-Template/blob/master/week06/match_pattern.js)
+    [match_pattern.js](https://github.com/wanni-yang/Frontend-01-Template/blob/master/week06/FSM/match_pattern.js)
 3. 实现复合选择器，实现支持空格的 Class 选择器
    
-   [css_help](https://github.com/wanni-yang/Frontend-01-Template/blob/master/week06/css_help.js)
+   [css_help](https://github.com/wanni-yang/Frontend-01-Template/blob/master/week06/cssComputer/css_help.js)
 4. 跟上课堂内容，完成 DOM 树构建
    
-   [创建DOM树](https://github.com/wanni-yang/Frontend-01-Template/blob/master/week06/parserHTMLparser.js)
+   [创建DOM树](https://github.com/wanni-yang/Frontend-01-Template/blob/master/week06/parserHTML/parser.js)
