@@ -1,6 +1,6 @@
 //http client
 const net = require('net');
-const parser = require("./parser.js");
+const parser = require("./parserHTML/parser.js");
 //net.socket
 class Request {
     //method,url = host + port + path
@@ -23,10 +23,7 @@ class Request {
         this.headers["Content-Length"] = this.bodyText.length;
     }
     toString() {
-        return `${this.method} ${this.path} HTTP/1.1\r
-${Object.keys(this.headers).map(key => `${key}: ${this.headers[key]}`).join('\r\n')}
-\r
-${this.bodyText}`
+        return `${this.method} ${this.path} HTTP/1.1\r\nHOST: ${this.host}\r\n${Object.keys(this.headers).map(key => `${key}: ${this.headers[key]}`).join('\r\n')}\r\n\r\n${this.bodyText}\r\n`
     }
     // open(method, url){
 
@@ -58,8 +55,8 @@ ${this.bodyText}`
                 parser.recieve(data.toString());
                 // console.log(parser.statusLine);
                 // resolve(data.toString());
-                if(parser.isFinished){
-                   resolve(parser.response);
+                if (parser.isFinished) {
+                    resolve(parser.response);
                 }
                 connection.end();
             });
@@ -111,12 +108,12 @@ class ResponseParse {
         // 初始化bodyparser在header处理完后创建
         this.bodyParser = null;
     }
-    get isFinished(){
+    get isFinished() {
         return this.bodyParser && this.bodyParser.isFinished;
     }
-    get response(){
+    get response() {
         this.statusLine.match(/HTTP\/1.1 ([0-9]+) ([\s\S]+)/);
-        return{
+        return {
             statusCode: RegExp.$1,
             statusText: RegExp.$2,
             headers: this.headers,
@@ -209,7 +206,7 @@ class TrunkedBodyParser {
     }
     recieveChar(char) {
         // console.log(JSON.stringify(char))
-        
+
         if (this.current === this.WAITING_LENGTH) {
             // console.log(char);
             if (char === '\r') {
@@ -222,21 +219,21 @@ class TrunkedBodyParser {
                 this.length += parseInt(char, 16); //Number(char);
 
             }
-        }else if (this.current === this.WAITING_LENGTH_LINE_END) {
+        } else if (this.current === this.WAITING_LENGTH_LINE_END) {
             if (char === '\n') {
                 this.current = this.READING_TRUNK;
             }
-        }else if (this.current === this.READING_TRUNK) {
+        } else if (this.current === this.READING_TRUNK) {
             this.content.push(char);
             this.length--;
             if (this.length === 0) {
                 this.current = this.WAITING_NEW_LINE;
             }
-        }else if (this.current === this.WAITING_NEW_LINE) {
+        } else if (this.current === this.WAITING_NEW_LINE) {
             if (char === '\r') {
                 this.current = this.WAITING_NEW_LINE_END;
             }
-        }else if(this.current === this.WAITING_NEW_LINE_END) {
+        } else if (this.current === this.WAITING_NEW_LINE_END) {
             if (char === '\n') {
                 this.current = this.WAITING_LENGTH;
             }

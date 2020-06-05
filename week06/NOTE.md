@@ -15,4 +15,4 @@
    [css_help](https://github.com/wanni-yang/Frontend-01-Template/blob/master/week06/css_help.js)
 4. 跟上课堂内容，完成 DOM 树构建
    
-   [创建DOM树](https://github.com/wanni-yang/Frontend-01-Template/blob/master/week06/parser.js)
+   [创建DOM树](https://github.com/wanni-yang/Frontend-01-Template/blob/master/week06/parserHTMLparser.js)
