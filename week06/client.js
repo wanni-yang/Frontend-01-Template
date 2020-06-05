@@ -1,6 +1,9 @@
 //http client
 const net = require('net');
-const parser = require("./parserHTML/parser.js");
+// 解析html
+// const parser = require("./parserHTML/parser.js");
+// 计算css
+const parser = require("./computerCSS/computerCSS1.js");
 //net.socket
 class Request {
     //method,url = host + port + path

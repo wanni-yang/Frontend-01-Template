@@ -23,10 +23,7 @@ class Request {
         this.headers["Content-Length"] = this.bodyText.length;
     }
     toString() {
-        return `${this.method} ${this.path} HTTP/1.1\r
-${Object.keys(this.headers).map(key => `${key}: ${this.headers[key]}`).join('\r\n')}
-\r
-${this.bodyText}`
+        return `${this.method} ${this.path} HTTP/1.1\r\nHOST: ${this.host}\r\n${Object.keys(this.headers).map(key => `${key}: ${this.headers[key]}`).join('\r\n')}\r\n\r\n${this.bodyText}\r\n`
     }
     // open(method, url){
 

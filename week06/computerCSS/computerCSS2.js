@@ -9,7 +9,68 @@ let currentToken = null
 let currentAttribute = null
 let currentTextNode = null
 // 栈存储dom树 document.getElementByTagName('html')[0].parentNode; document
-let stack = [{type: "document", children: []}]
+let stack = [{ type: "document", children: [] }]
+/*++++++++++++++++++++++++++++++++++++++++computerCSS部分+++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+let rules = []
+function addCSSRules(text) {
+    const ast = css.parse(text)
+    rules.push(...ast.stylesheet.rules)
+}
+
+function match(element, selector) {
+    if (!selector || !element.attributes)
+        return false
+    // id选择器
+    if (selector.charAt(0) == "#") {
+        const attr = element.attributes.filter(attr => attr.name === "id")[0]
+        if (attr && attr.value === selector.replace("#", ''))
+            return true
+    } else if (selector.charAt(0) == ".") {
+        const attr = element.attributes.filter(attr => attr.name === "class")[0]
+        if (attr && attr.value === selector.replace(".", ''))
+            return true
+    } else {
+        if (element.tagName === selector) {
+            return true
+        }
+    }
+    return false
+}
+
+function computeCSS(element) {
+    //由内到外获取当前元素父元素序列
+    const elements = stack.slice().reverse()
+
+    if (!element.computedStyle)
+        element.computedStyle = {}
+    //   拆分选择器
+    for (let rule of rules) {
+        const selectorParts = rule.selectors[0].split(" ").reverse()
+        // 判断当前元素和css语法最后一个选择器是否匹配，不匹配跳出循环
+        //body div img 先判断img
+        if (!match(element, selectorParts[0]))
+            continue
+
+        let matched = false
+        // 同时循环elements(i)和selectorParts(j),若element和selector匹配的话，selector往前走一格
+        // selector走完了，说明匹配成功，matched置为true
+        let j = 1
+
+        for (let i = 0; i < elements.length; i++) {
+            if (match(elements[i], selectorParts[j])) {
+                j++
+            }
+        }
+        if (j >= selectorParts.length) {
+            matched = true
+        }
+        if (matched) { // 匹配成功
+            console.log("Element", element, "matched rule", rule)
+        }
+    }
+}
+/*++++++++++++++++++++++++++++++++++++++++computerCSS部分+++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+
 /**
  * 遇到标签结束状态提交，标签的结束状态是Tag不是元素的结束状态，开始标签结束对的时候也会被提交， 文本节点直接被当成token提交
 */
@@ -35,6 +96,8 @@ function emit(token) {
                 })
             }
         }
+        // 创建元素并加好属性之后开始计算css
+        computeCSS(element);
         // 新加入元素放到栈顶元素的子元素中
         // 新加入元素的父节点设置为top
         top.children.push(element)
@@ -49,7 +112,10 @@ function emit(token) {
         if (top.tagName != token.tagName) {
             throw new Error("Tag start end doesn't match")
         } else {
-            // console.log('pop', stack.pop())
+            // ++++++++++++++遇到style标签时，执行添加CSS规则操作+++++++++//
+            if (top.tagName === 'style') {
+                addCSSRules(top.children[0].content);
+            }
             stack.pop()
         }
         currentTextNode = null
@@ -329,5 +395,5 @@ module.exports.parseHTML = function parseHTML(html) {
         state = state(char)
     }
     state = state(EOF)
-    console.log(stack[0])
+    return stack[0]
 }
