@@ -3,6 +3,10 @@
 2. [浏览器工作原理二---解析html代码、创建dom树](https://www.yuque.com/yangxiaomie/zu16ge/ulzkkm)
 3. [有限状态机FSM](https://www.yuque.com/yangxiaomie/zu16ge/wt5c92)
 4. [浏览器工作原理三---CSS计算排版渲染合成](https://www.yuque.com/yangxiaomie/zu16ge/cydlkb)
+# 代码说明
+1. toy-browser文件夹下面是本节最终的代码
+2. toy-browser-detail文件夹下面是parseHTML和conputerCSS的详细步骤代码
+3. 启动server.js都可输出DOM
 # 作业
 1. 使用状态机完成'abababx'的处理
    
