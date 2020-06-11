@@ -1,5 +1,7 @@
 # 每周总结可以写在这里
 本周完成的是layout和render
+1. [layout步骤](https://github.com/wanni-yang/Frontend-01-Template/tree/master/week07/layouts)
+2. [render步骤](https://github.com/wanni-yang/Frontend-01-Template/tree/master/week07/renders)
 # 作业
 1. 跟着课程完成 [toy-browser](https://github.com/wanni-yang/Frontend-01-Template/tree/master/week07/toy-browser)
 2. 画一个 CSS 的脑图
