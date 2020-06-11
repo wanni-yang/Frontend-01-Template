@@ -72,3 +72,12 @@ function buildNextMap(pattern) {
     }
     return currentStatus === status.end
   }
+  
+console.log(`match('abababx', 'I am ababababx.') is ${match('abababx', 'I am ababababx.')}`);
+console.log(`match('abababx', 'I am ababababab.') is ${match('abababx', 'I am ababababab.')}`);
+console.log(`match('abcabd', 'abcabcabc') is ${match('abcabd', 'abcabcabc')}`);
+console.log(`match('abcd', 'abcababcd') is ${match('abcd', 'abcababcd')}`);
+console.log(`match('ab', 'ab') is ${match('ab', 'ab')}`);
+console.log(`match('ab', 'bc') is ${match('ab', 'ba')}`);
+console.log(`match('bcd', 'abcd') is ${match('bcd', 'abcd')}`);
+console.log(`match('ab', 'aab') is ${match('ab', 'aab')}`);

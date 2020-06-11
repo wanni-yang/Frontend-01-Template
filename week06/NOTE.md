@@ -12,7 +12,7 @@
     [match_pattern.js](https://github.com/wanni-yang/Frontend-01-Template/blob/master/week06/FSM/match_pattern.js)
 3. 实现复合选择器，实现支持空格的 Class 选择器
    
-   [css_help](https://github.com/wanni-yang/Frontend-01-Template/blob/master/week06/computercss/css_help.js)
+   [css_help](https://github.com/wanni-yang/Frontend-01-Template/blob/master/week06/toy-browser-detail/computerCSS/computerCSS3.js)
 4. 跟上课堂内容，完成 DOM 树构建
    
-   [创建DOM树](https://github.com/wanni-yang/Frontend-01-Template/blob/master/week06/parserHTML/parser.js)
+   [创建DOM树](https://github.com/wanni-yang/Frontend-01-Template/blob/master/week06/toy-browser-detail/parserHTML/parser.js)

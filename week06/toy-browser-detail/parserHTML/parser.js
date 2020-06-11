@@ -1,4 +1,3 @@
-// const cssHelper = require('./css_help')
 // 很多文本节点的结束是在文件结束的时候自然结束，没有遇到特殊标签之前编辑器会保持等待继续补全，没办法把最后的文本挂上去
 // symbol是唯一的，唯一的都可以，object也行，但是字符都有占位没有办法放一个真正的字符当做结束标签。当做一个特殊的字符，整个循环结束时传给state，实现标识文件结尾的作用，处理大多数待结束的场景。
 // 处理字符串也需要这样做
@@ -131,7 +130,7 @@ function endTagOpen(char) {
 */
 function tagName(char) {
     if (char.match(/^[\t\n\f ]$/)) {
-        return beforeAttributeName(char)
+        return beforeAttributeName
     } else if (char == "/") {
         return selfClosingStartTag
     } else if (char.match(/^[a-zA-Z]$/)) {
@@ -141,7 +140,8 @@ function tagName(char) {
         emit(currentToken)
         return data
     } else {
-        return tagName
+        currentToken.tagName += char;
+        return tagName;
     }
 }
 /*
@@ -199,7 +199,7 @@ function attributeName(char) {
     } else if (char == "\u0000") {
         // return data
     } else if (char == "\"" || char == "\'" || char == "<") {
-        return attributeName
+        // return attributeName
     } else {
         currentAttribute.name += char
         return attributeName
@@ -221,8 +221,8 @@ function beforeAttributeValue(char) {
     } else if (char == "\'") {
         return singleQuotedAttributeValue
     } else if (char == ">") {
-        emit(currentToken)
-        // return data
+        // emit(currentToken)
+        return data
     } else {
         return UnquotedAttributeValue(char)
     }

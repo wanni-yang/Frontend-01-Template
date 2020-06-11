@@ -3,7 +3,7 @@ const net = require('net');
 // 解析html
 // const parser = require("./parserHTML/parser.js");
 // 计算css
-const parser = require("./computerCSS/computerCSS1.js");
+const parser = require("./computerCSS/computerCSS3.js");
 //net.socket
 class Request {
     //method,url = host + port + path
@@ -25,8 +25,14 @@ class Request {
             this.bodyText = Object.keys(this.body).map(key => `${key}=${encodeURIComponent(this.body[key])}`).join('&');
         this.headers["Content-Length"] = this.bodyText.length;
     }
-    toString() {
-        return `${this.method} ${this.path} HTTP/1.1\r\nHOST: ${this.host}\r\n${Object.keys(this.headers).map(key => `${key}: ${this.headers[key]}`).join('\r\n')}\r\n\r\n${this.bodyText}\r\n`
+    // toString() {
+    //     return `${this.method} ${this.path} HTTP/1.1\r\nHOST: ${this.host}\r\n${Object.keys(this.headers).map(key => `${key}: ${this.headers[key]}`).join('\r\n')}\r\n\r\n${this.bodyText}\r\n`
+    // }
+    toString(){
+        return `${this.method} ${this.path} HTTP/1.1\r
+${Object.keys(this.headers).map(key => `${key}: ${this.headers[key]}`).join('\r\n')}\r
+\r
+${this.bodyText}`
     }
     // open(method, url){
 
@@ -71,9 +77,9 @@ class Request {
     }
 
 }
-// class Response{
+class Response{
 
-// }
+}
 
 /*
     产生Response,根据Transfer-Encoding判断如何解析body。用状态机处理
@@ -134,9 +140,11 @@ class ResponseParse {
         if (this.current === this.WAITING_STATUS_LINE) {
             if (char === '\r') {
                 this.current = this.WAITING_STATUS_LINE_END;
-            } else if (char === '\n') {
-                this.current = this.WAITING_HEADER_NAME;
-            } else {
+            } 
+            // else if (char === '\n') {
+            //     this.current = this.WAITING_HEADER_NAME;
+            // } 
+            else {
                 this.statusLine += char;
             }
 
@@ -184,9 +192,6 @@ class ResponseParse {
             // 转发给bodyparser,以0结束
             this.bodyParser.recieveChar(char);
         }
-
-
-
     }
 }
 
@@ -261,5 +266,6 @@ void async function () {
     let response = await request.send();
     // 等response处理结束才开始解析html，此处应作出generator的形式
     let dom = parser.parseHTML(response.body);
-    console.log(response);
+    console.log(JSON.stringify(dom, null , '   '));
+    console.log("")
 }();
