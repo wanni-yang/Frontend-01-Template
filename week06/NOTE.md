@@ -1,7 +1,7 @@
 # 每周总结可以写在这里
-1. [浏览器工作原理一---HTTP](https://www.yuque.com/yangxiaomie/zu16ge/rx08ev)
-2. [浏览器工作原理二---解析html代码、创建dom树](https://www.yuque.com/yangxiaomie/zu16ge/ulzkkm)
-3. [有限状态机FSM](https://www.yuque.com/yangxiaomie/zu16ge/wt5c92)
+1. [有限状态机FSM](https://www.yuque.com/yangxiaomie/zu16ge/wt5c92)
+2. [浏览器工作原理一---HTTP](https://www.yuque.com/yangxiaomie/zu16ge/rx08ev)
+3. [浏览器工作原理二---解析html代码、创建dom树](https://www.yuque.com/yangxiaomie/zu16ge/ulzkkm)
 4. [浏览器工作原理三---CSS计算排版渲染合成](https://www.yuque.com/yangxiaomie/zu16ge/cydlkb)
 # 代码说明
 1. toy-browser文件夹下面是本节最终的代码
