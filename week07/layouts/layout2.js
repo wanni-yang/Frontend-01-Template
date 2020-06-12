@@ -95,7 +95,7 @@ function layout(element) {
         crossStart = 'left';
         crossEnd = 'right';
     }
-    if (style.flexDirection === 'wrap-reverse') {
+    if (style.flexWrap === 'wrap-reverse') {
         var tmp = crossStart;
         crossStart = crossEnd;
         crossEnd = tmp;
