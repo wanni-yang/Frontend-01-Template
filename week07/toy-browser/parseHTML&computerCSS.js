@@ -3,7 +3,7 @@
 // 处理字符串也需要这样做
 const css = require("css")
 const EOF = Symbol("EOF") //EOF:End of file
-const layout = require("../layouts/layout1")
+const layout = require("./layout")
 // constructTree
 // 创建和更新全局变量的过程就是业务逻辑
 let currentToken = null;
@@ -180,7 +180,7 @@ function computeCSS(element) {
         }
         if (matched) {
             // 匹配成功,将rule所有的属性声明加到元素的computedStyle上
-            console.log("当前元素", element, "匹配到的规则", rule)
+            // console.log("当前元素", element, "匹配到的规则", rule)
             // 
             const sp = specificity(rule.selectors[0]);
             const computedStyle = element.computedStyle;
@@ -194,8 +194,9 @@ function computeCSS(element) {
                     computedStyle[declaration.property].value = declaration.value;
                     computedStyle[declaration.property].specificity = sp;
                 } else if (compare(computedStyle[declaration.property].specificity, sp) < 0) {
-                    computedStyle[declaration.property].value = declaration.value;
-                    computedStyle[declaration.property].specificity = sp;
+                    for(var k = 0; k < 4; k++){
+                        computedStyle[declaration.property][declaration.value][k] += sp[k];
+                    }
                 }
             }
         }
@@ -239,7 +240,7 @@ function emit(token) {
         if (!token.isSelfClosing)
             stack.push(element);
         currentTextNode = null
-        console.log('加入元素： ', element)
+        // console.log('加入元素： ', element)
         // 结束标签判断是否和栈顶元素的标签名相等，这里不处理html容错机制(标准12.2.6.4)，不相等直接报错
     } else if (token.type == "endTag") {
         if (top.tagName != token.tagName) {
@@ -249,10 +250,10 @@ function emit(token) {
             if (top.tagName === 'style') {
                 addCSSRules(top.children[0].content);
             }
-            //------------------此处加入layout---------------------------//
-            layout(top);
             stack.pop();
         }
+        //------------------此处加入layout---------------------------//
+        layout(top);
         currentTextNode = null;
     } else if (token.type == "text") {
         if (currentTextNode == null) {
@@ -560,7 +561,7 @@ function selfClosingStartTag(char) {
 module.exports.parseHTML = function parseHTML(html) {
     // html为参数
     // 返回dom树
-    console.log(html)
+    // console.log(html)
     let state = data;
     for (let char of html) {
         state = state(char);

@@ -193,8 +193,9 @@ function computeCSS(element) {
                     computedStyle[declaration.property].value = declaration.value;
                     computedStyle[declaration.property].specificity = sp;
                 } else if (compare(computedStyle[declaration.property].specificity, sp) < 0) {
-                    computedStyle[declaration.property].value = declaration.value;
-                    computedStyle[declaration.property].specificity = sp;
+                    for(var k = 0; k < 4; k++){
+                        computedStyle[declaration.property][declaration.value][k] += sp[k];
+                    }
                 }
             }
         }

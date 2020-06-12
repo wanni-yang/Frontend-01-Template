@@ -144,6 +144,7 @@ for (var i = 0; i < items.length; i++) {
     } else if (style.flexWrap === 'nowrap' && isAutoMainSize) {
         mainSpace -= itemStyle[mainSize];
         if (itemStyle[crossSize] !== null && itemStyle[crossSize] !== (void 0)) {
+            // 取出每行的高度
             crossSpace = Math.max(crossSpace, itemStyle[crossSize]);
         }
         flexLine.push(item);

@@ -1,109 +1,217 @@
-//排版or布局
-function getStyle(element){
-    if(!element.style){
-        element.style = {};
-    }
-    for(let prop in element.computedStyle){
-        var p = element.computedStyle.value;
-        element.style[prop] = element.computedStyle[prop].value;
-
-        if(element.style[prop].toString().match(/px$/)){
-            element.style[prop] = parseInt(element.style[prop]);
-        }
-        if(element.style[prop].toString().match(/^[0-9\.]$/)){
-            element.style[prop] = parseInt(element.style[prop]);
-        }
-    }
-    return element.style;
-
+/ Size默认值
+const sizeDefaultValues = {
+  width: null,
+  height: null,
 }
-function layout(element){
-    if(!element.computedStyle)
-        return;
-    var elementStyle = getStyle(element);
+// Flex布局默认值
+const flexLayoutDefaultValues = {
+  flexDirection: 'row',
+  flexWrap: 'nowrap',
+  justifyContent: 'flex-start',
+  alignItems: 'stretch',
+  alignContent: 'stretch',
+}
+// 设置CSS默认值
+function setCssDefaultValues(style, defaultValues) {
+  Object.entries(defaultValues).forEach(([prop, defaultValue]) => {
+    if (!style[prop] || style[prop] === 'auto') {
+      style[prop] = defaultValue
+    }
+  })
+}
+// 设置元素Style，初始化默认值
+function setStyle(element) {
+  element.style = element.style || {}
+  for (const prop in element.computedStyle) {
+    let propValue = element.computedStyle[prop].value
+    if (propValue.toString().match(/^[\d.]+$|px$/)) {
+      propValue = parseInt(propValue)
+    }
+    element.style[prop] = propValue
+  }
+  setCssDefaultValues(element.style, sizeDefaultValues) // 设置默认宽高
+}
+// 获取Flex布局关键参数值
+function getFlexLayoutParams(style) {
+  let mainSize, mainStart, mainEnd, mainSign;
+  let crossSize, crossStart, crossEnd, crossSign;
 
-    if(elementStyle.display !== 'flex')
-        return
-    var items = element.children.filter(e => e.type === 'element');
+  if (style.flexDirection.startsWith('row')) {
+    mainSize = 'width'
+    mainStart = 'left'
+    mainEnd = 'right'
 
-    items.sort(function (a, b){
-        return (a.order || 0) - (b.order || 0);
-    });
+    crossSize = 'height'
+    crossStart = 'top'
+    crossEnd = 'bottom'
+  } else if (style.flexDirection.startsWith('column')) {
+    mainSize = 'height'
+    mainStart = 'top'
+    mainEnd = 'bottom'
 
-    var style = elementStyle;
+    crossSize = 'width'
+    crossStart = 'left'
+    crossEnd = 'right'
+  }
 
-    ['width', 'height'].forEach(size => {
-        if(style[size] === 'auto' || style[size] === ''){
-            style[size] = null;
-        }
+  if (style.flexDirection.endsWith('reverse')) {
+    [mainStart, mainEnd] = [mainEnd, mainStart]
+    mainSign = -1
+  } else {
+    mainSign = +1
+  }
+
+  if (style.flexWrap === 'wrap-reverse') {
+    [crossStart, crossEnd] = [crossEnd, crossStart]
+    crossSign = -1
+  } else {
+    crossSign = +1
+  }
+
+  return {
+    mainSize, mainStart, mainEnd, mainSign,
+    crossSize, crossStart, crossEnd, crossSign,
+  }
+}
+
+// 元素分行
+function getFlexLines(element, mainSize, crossSize) {
+  const items = element.children.filter(e => e.type === 'element')
+    .sort((a, b) => ((a.style.order || 0) - (b.style.order || 0)))
+  const isWrap = element.style.flexWrap !== 'nowrap'
+  const lineMainSize = element.style[mainSize]
+
+  const flexLines = []
+  items.forEach(item => {
+    let line = flexLines[flexLines.length - 1]
+    if (!line || (isWrap && !item.style.flex && line.usedMainSize + item.style[mainSize] > lineMainSize)) {
+      line = []
+      line.mainSize = lineMainSize // 主轴尺寸
+      line.crossSize = isWrap ? 0 : element.style[crossSize]  // 交叉轴尺寸
+      line.usedMainSize = 0  // 已用主轴尺寸
+      line.flexTotal = 0 // flex总值
+      flexLines.push(line)
+    }
+
+    if (item.style[mainSize] > lineMainSize) {
+      item.style[mainSize] = lineMainSize
+    }
+    if (item.style.flex) {
+      line.flexTotal += item.style.flex
+    } else if (item.style[mainSize]) {
+      line.usedMainSize += item.style[mainSize]
+    }
+    if (item.style[crossSize]) {
+      line.crossSize = Math.max(line.crossSize, item.style[crossSize])
+    }
+
+    line.push(item)
+  })
+
+  return flexLines
+}
+
+function layout(element) {
+  if (/^(head|style|meta|title|script)$/.test(element.tagName) || !element.computedStyle) {
+    return
+  }
+  setStyle(element)
+  if (element.style.display !== 'flex') {
+    return
+  }
+
+  setCssDefaultValues(element.style, flexLayoutDefaultValues)
+
+  let {
+    mainSize, mainStart, mainEnd, mainSign,
+    crossSize, crossStart, crossEnd, crossSign
+  } = getFlexLayoutParams(element.style)
+
+  // 计算主轴
+  if (element.style[mainSize] === null) {
+    element.style[mainSize] = element.children.filter(e => e.type === 'element')
+      .map(item => item.style[mainSize] || 0)
+      .reduce((total, s) => total + s, 0)
+  }
+  const mainBase = mainSign > 0 ? 0 : element.style[mainSize]
+
+  const flexLines = getFlexLines(element, mainSize, crossSize)
+
+  flexLines.forEach(line => {
+    const lineFreeMainSixe = Math.max(line.mainSize - line.usedMainSize, 0) // 每行可用空间
+    // 计算每行的起始位置和元素间距
+    let currentMainStart = mainBase
+    let gutter = 0
+    if (line.flexTotal === 0) {
+      if (element.style.justifyContent === 'flex-end') {
+        currentMainStart = mainBase + lineFreeMainSixe * mainSign
+      } else if (element.style.justifyContent === 'center') {
+        currentMainStart = mainBase + lineFreeMainSixe / 2 * mainSign
+      } else if (element.style.justifyContent === 'space-between') {
+        gutter = lineFreeMainSixe / (line.length - 1)
+      } else if (element.style.justifyContent === 'space-around') {
+        gutter = lineFreeMainSixe / line.length
+        currentMainStart = mainBase + gutter / 2 * mainSign
+      }
+    }
+    const scale = Math.min(line.mainSize / line.usedMainSize, 1) // 非弹性元素缩放比例
+    // 计算容器里所有元素的mainSize\mainStart\mainEnd
+    line.forEach(item => {
+      if (item.style.flex) {
+        item.style[mainSize] = lineFreeMainSixe * item.style.flex / line.flexTotal
+      } else {
+        item.style[mainSize] *= scale
+      }
+
+      item.style[mainStart] = currentMainStart
+      item.style[mainEnd] = currentMainStart + item.style[mainSize] * mainSign
+      currentMainStart = item.style[mainEnd] + gutter * mainSign
     })
-    if(!style.flexDirection || style.flexDirection === 'auto')
-        style.flexDirection = 'row';
-    if(!style.alignItems || style.alignItems === 'auto')
-        style.alignItems = 'stretch';
-    if(!style.justifyContent || style.justifyContent === 'auto')
-        style.justifyContent = 'flex-start';
-    if(!style.flexWrap || style.flexWrap === 'auto')
-        style.flexWrap = 'nowrap';
-    if(!style.alignContent || style.alignContent === 'auto')
-        style.alignContent = 'stretch';
+  })
 
-    var mainSize, mainStart, mainEnd, mainSign,mainBase, crossSize,
-    crossStart,crossEnd,crossEnd,crossSign,crossBase;
-    if(style.flexDirection === 'row'){
-        mainSize = 'width';
-        mainStart = 'left';
-        mainEnd = 'right';
-        mainSign = +1;
-        mainBase = 0;
+  // 计算交叉轴
+  const usedCrossSize = flexLines.map(line => line.crossSize).reduce((total, s) => total + s, 0)
+  if (element.style[crossSize] === null) {
+    element.style[crossSize] = usedCrossSize
+  }
 
-        crossSize = 'height';
-        crossStart = 'top';
-        crossEnd = 'bottom';
-    }
-    if(style.flexDirection === 'row-reverse'){
-        mainSize = 'width';
-        mainStart = 'right';
-        mainEnd = 'left';
-        mainSign = -1;
-        mainBase = style.width;
+  const crossBase = crossSign > 0 ? 0 : element.style[crossSize]
 
-        crossSize = 'height';
-        crossStart = 'top';
-        crossEnd = 'bottom';
-    }
-    if(style.flexDirection === 'column'){
-        mainSize = 'height';
-        mainStart = 'top';
-        mainEnd = 'bottom';
-        mainSign = +1;
-        mainBase = 0;
+  const freeCrossSize = element.style[crossSize] - usedCrossSize
+  let currentCrossStart = crossBase
+  let gutter = 0
+  if (element.style.alignContent === 'stretch') {
+    flexLines.forEach(line => line.crossSize += freeCrossSize / flexLines.length)
+  } else if (element.style.alignContent === 'flex-end') {
+    currentCrossStart = crossBase + freeCrossSize * crossSign
+  } else if (element.style.alignContent === 'center') {
+    currentCrossStart = crossBase + freeCrossSize / 2 * crossSign
+  } else if (element.style.alignContent === 'space-between') {
+    gutter = freeCrossSize / (flexLines.length - 1)
+  } else if (element.style.alignContent === 'space-around') {
+    gutter = freeCrossSize / flexLines.length
+    currentCrossStart = crossBase + gutter / 2 * crossSign
+  }
 
-        crossSize = 'width';
-        crossStart = 'left';
-        crossEnd = 'right';
-    }
-    if(style.flexDirection === 'column-reverse'){
-        mainSize = 'height';
-        mainStart = 'bottom';
-        mainEnd = 'top';
-        mainSign = -1;
-        mainBase = style.height;
+  flexLines.forEach(line => {
+    // 计算容器里所有元素的crossSize\crossStart\crossEnd
+    line.forEach(item => {
+      const alignItem = item.alignSelf || element.style.alignItems
+      if (item.style[crossSize] === null) {
+        item.style[crossSize] = (alignItem === 'stretch') ? line.crossSize : 0
+      }
 
-        crossSize = 'width';
-        crossStart = 'left';
-        crossEnd = 'right';
-    }
-    if(style.flexDirection === 'wrap-reverse'){
-        var tmp = crossStart;
-        crossStart = crossEnd;
-        crossEnd = tmp;
-        crossSign = -1;
-    }else{
-        crossBase = 0;
-        crossSign = 1;
-    }
-
+      const lineFreeCrossSize = line.crossSize - item.style[crossSize]
+      item.style[crossStart] = currentCrossStart
+      if (alignItem === 'center') {
+        item.style[crossStart] += lineFreeCrossSize / 2 * crossSign
+      } else if (alignItem === 'flex-end') {
+        item.style[crossStart] += lineFreeCrossSize * crossSign
+      }
+      item.style[crossEnd] = item.style[crossStart] + item.style[crossSize] * crossSign
+    })
+    currentCrossStart = currentCrossStart + (line.crossSize + gutter) * crossSign
+  });
 }
 
 module.exports = layout;

@@ -212,6 +212,7 @@ void async function () {
 
   const response = await request.send()
   const dom = parseHTML(response.body);
-  console.log(dom);
+  console.log(JSON.stringify(dom, null , '   '));
+  console.log("")
 
 }();

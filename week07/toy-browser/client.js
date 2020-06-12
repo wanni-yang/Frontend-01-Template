@@ -1,6 +1,8 @@
 //http client
 const net = require('net');
 const parser = require("./parseHTML&computerCSS");
+const render = require("./render");
+const images = require("images");
 //net.socket
 class Request {
     //method,url = host + port + path
@@ -256,6 +258,9 @@ void async function () {
         }
     });
     let response = await request.send();
-    let dom = parser.parseHTML(reponse.body)
-    console.log(response);
+    let dom = parser.parseHTML(response.body);
+    let viewport = images(800,600);
+    console.log(dom.children[0].children[3].children[1].children[1])
+    render(viewport,dom.children[0].children[3].children[1].children[3]);
+    viewport.save("result.jpg");
 }();
