@@ -1,0 +1,36 @@
+<div id="a">
+    <span>1</span>
+    <p>2</p>
+    <a>3</a>
+    <div>4</div>
+</div>
+<script>
+    let element = document.getElementById("a");
+    /**
+     * @param {string} element
+     * @return {object}
+     */
+    function reverseChildren(element) {
+        // let children = element.childNodes;
+        let children = Array.prototype.slice.call(element.childNodes);
+        
+    }
+    function reverseChildren1(element){
+        var i = element.childNodes.length;
+        while(i-- > 0){
+            element.appendChild(element.childNodes[i])
+        }
+    }
+    function reverseChildren3(element){
+        let range = new Range();
+        range.selectNodeContents(element);
+
+        let fragment = range.extractContents();
+        var l = fragment.childNodes.length;
+        while(l-- > 0){
+            fragment.appendChild(fragment.childNodes[l])
+        }
+        element.appendChild(fragment);
+    }
+    reverseChildren3(element)
+</script>
