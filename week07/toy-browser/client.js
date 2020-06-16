@@ -259,8 +259,8 @@ void async function () {
     });
     let response = await request.send();
     let dom = parser.parseHTML(response.body);
+    // console.log(JSON.stringify(dom, null , '   '));
     let viewport = images(800,600);
-    console.log(dom.children[0].children[3].children[1].children[1])
-    render(viewport,dom.children[0].children[3].children[1].children[3]);
-    viewport.save("result.jpg");
+    render(viewport,dom);
+    viewport.save("viewport.jpg");
 }();

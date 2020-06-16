@@ -250,11 +250,11 @@ function emit(token) {
             if (top.tagName === 'style') {
                 addCSSRules(top.children[0].content);
             }
+            //------------------此处加入layout---------------------------//
+            layout(top);
             stack.pop();
         }
-        //------------------此处加入layout---------------------------//
-        layout(top);
-        currentTextNode = null;
+        // currentTextNode = null;
     } else if (token.type == "text") {
         if (currentTextNode == null) {
             currentTextNode = {
