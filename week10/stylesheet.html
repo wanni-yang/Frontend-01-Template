@@ -1,0 +1,20 @@
+<style title="Hello">
+a::before{
+    color: red;
+    content: "Hello";
+}
+</style>
+<link type="stylesheet" href="data:text/css,p%7Bcolor:blue%7D">
+<a>world</a>
+<p>haha</p>
+<script>
+    // 修改css样式
+    document.styleSheets[0].cssRules[0].style.fontSize = '40px'
+    // 切掉style标签
+    // let range = new Range();
+    // range.selectNodeContents(document.getElementsByTagName("style")[0]);
+    // range.extractContents();
+    // 修改伪元素的样式
+    document.styleSheets[0].cssRules[0].delete()
+    document.styleSheets[0].cssRules[0].insert()
+</script>

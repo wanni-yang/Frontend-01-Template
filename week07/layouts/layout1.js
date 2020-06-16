@@ -3,10 +3,11 @@ function getStyle(element){
     if(!element.style){
         element.style = {};
     }
+    // 将元素上的conputedStyle复制到style
     for(let prop in element.computedStyle){
         var p = element.computedStyle.value;
         element.style[prop] = element.computedStyle[prop].value;
-
+        // 处理px、数字为number类型，其他单位一样
         if(element.style[prop].toString().match(/px$/)){
             element.style[prop] = parseInt(element.style[prop]);
         }
@@ -21,15 +22,16 @@ function layout(element){
     if(!element.computedStyle)
         return;
     var elementStyle = getStyle(element);
-
+    // display 不是flex就不做layout处理
     if(elementStyle.display !== 'flex')
         return
+    // 过滤掉不是element的元素，比如文本节点
     var items = element.children.filter(e => e.type === 'element');
-
+    // 通过order对元素排序
     items.sort(function (a, b){
         return (a.order || 0) - (b.order || 0);
     });
-
+    // 获取可以进行layout的元素 display:flex
     var style = elementStyle;
 
     ['width', 'height'].forEach(size => {
@@ -37,6 +39,7 @@ function layout(element){
             style[size] = null;
         }
     })
+    // 给style属性设置默认值
     if(!style.flexDirection || style.flexDirection === 'auto')
         style.flexDirection = 'row';
     if(!style.alignItems || style.alignItems === 'auto')
