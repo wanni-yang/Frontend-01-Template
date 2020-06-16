@@ -1,4 +1,4 @@
-/ Size默认值
+// Size默认值
 const sizeDefaultValues = {
   width: null,
   height: null,
