@@ -186,16 +186,19 @@ function computeCSS(element) {
             const computedStyle = element.computedStyle;
             // declarations对应到css代码中就是{属性名：属性值}
             for (let declaration of rule.declarations) {
-                if (!computedStyle[declaration.property]) {
+                let property =declaration.property.replace(/-([a-z])/g, (_, char) => char.toUpperCase()) // 转驼峰命名：'flex-direction' -> 'flexDirection'
+
+                if (!computedStyle[property]) {
                     // 预留存优先级
-                    computedStyle[declaration.property] = {};
+                    computedStyle[property] = {};
                 }
-                if (!computedStyle[declaration.property].specificity) {
-                    computedStyle[declaration.property].value = declaration.value;
-                    computedStyle[declaration.property].specificity = sp;
-                } else if (compare(computedStyle[declaration.property].specificity, sp) < 0) {
+                
+                if (!computedStyle[property].specificity) {
+                    computedStyle[property].value = declaration.value;
+                    computedStyle[property].specificity = sp;
+                } else if (compare(computedStyle[property].specificity, sp) < 0) {
                     for(var k = 0; k < 4; k++){
-                        computedStyle[declaration.property][declaration.value][k] += sp[k];
+                        computedStyle[property][declaration.value][k] += sp[k];
                     }
                 }
             }
@@ -213,12 +216,11 @@ function emit(token) {
     // 词法阶段叫标签，构造dom树时是元素
     if (token.type == "startTag") {
         let element = {
+            tagName: token.tagName,
             type: "element",
             children: [],
             attributes: []
         };
-        element.tagName = token.tagName;
-
         for (let p in token) {
             // 标签属性名：属性值
             if (p != "type" && p != "tagName") {
@@ -230,16 +232,17 @@ function emit(token) {
         }
         // 创建元素并加好属性之后开始计算css
         computeCSS(element);
+        //------------------此处加入layout---------------------------//
+        layout(element);
         // 新加入元素放到栈顶元素的子元素中
         // 新加入元素的父节点设置为top
         top.children.push(element);
-        ////////////////////////////////////////////
-        // 导致TypeError: Converting circular structure to JSON，待查错
-        // element.parent = top;
+
         // 不是自封闭标签将新加入元素入栈 
         if (!token.isSelfClosing)
             stack.push(element);
-        currentTextNode = null
+        
+        currentTextNode = null;
         // console.log('加入元素： ', element)
         // 结束标签判断是否和栈顶元素的标签名相等，这里不处理html容错机制(标准12.2.6.4)，不相等直接报错
     } else if (token.type == "endTag") {
@@ -250,11 +253,11 @@ function emit(token) {
             if (top.tagName === 'style') {
                 addCSSRules(top.children[0].content);
             }
-            //------------------此处加入layout---------------------------//
-            layout(top);
             stack.pop();
         }
-        // currentTextNode = null;
+        //------------------此处加入layout---------------------------//
+        layout(top);
+        currentTextNode = null;
     } else if (token.type == "text") {
         if (currentTextNode == null) {
             currentTextNode = {
@@ -494,7 +497,9 @@ function singleQuotedAttributeValue(char) {
         // return data
     } else {
         currentAttribute.value += char;
-        return singleQuotedAttributeValue;
+        /////////////////////////////////
+        return doubleQuotedAttributeValue;
+        // return singleQuotedAttributeValue;
     }
 }
 /*  

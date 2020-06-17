@@ -215,11 +215,11 @@ void async function () {
   const response = await request.send()
 
   const dom = parseHTML(response.body)
-
+  console.log(dom.children[0].children[3].children[1].children[1]);
   const viewport = images(800, 600)
 
-  render(viewport, dom)
+  render(viewport, dom.children[0].children[3].children[1].children[1])
 
-  viewport.save('viewport.jpg')
+  viewport.save('viewport1.jpg')
 
 }();

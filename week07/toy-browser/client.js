@@ -258,9 +258,13 @@ void async function () {
         }
     });
     let response = await request.send();
+
     let dom = parser.parseHTML(response.body);
-    // console.log(JSON.stringify(dom, null , '   '));
+
+    // console.log(JSON.stringify(dom.children[0].children[3].children[1].children[1], null , '   '));
     let viewport = images(800,600);
-    render(viewport,dom);
+
+    render(viewport, dom);
+
     viewport.save("viewport.jpg");
 }();
