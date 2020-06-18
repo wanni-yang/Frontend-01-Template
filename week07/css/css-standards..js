@@ -12,25 +12,3 @@ for (let li of lis) {
 }
 console.log(JSON.stringify(result, null, 4))
 console.log('W3C有'+result.length+'条css标准') // 139条
-
-
-let iframe = document.createElement('iframe');
-document.body.innerHTML = "";
-document.body.appendChild(iframe);
-
-function happen(element, event) {
-    return new Promise((resolve) => {
-        let handler = () => {
-            resolve();
-            element.removeEventListene(event, handler)
-        }
-        element.addEventListener(event, handler)
-    })
-}
-
-void async function () {
-    for (let stand of result) {
-        iframe.src = stand.url;
-        await happen(iframe, 'load')
-    }
-}()
