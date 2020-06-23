@@ -1,0 +1,36 @@
+<div style="font-size:30px;line-height:100px;background-color:pink;">
+    <!-- 不管line-hight如何设置行内文字和行内盒中的文字都会对齐 -->
+    <!-- 行内文字基线 -->
+    <div style="vertical-align:bottom;overflow:visible;display:inline-block;width:1px;height:1px;">
+        <div style="width:1000px;height:1px;background:red;"></div>
+    </div>
+    <div style="vertical-align:top;overflow:visible;display:inline-block;width:1px;height:1px;">
+        <div style="width:1000px;height:1px;background:black;"></div>
+    </div>
+    <div style="vertical-align:text-bottom;overflow:visible;display:inline-block;width:1px;height:1px;">
+        <div style="width:1000px;height:1px;background:blue;"></div>
+    </div>
+    <div style="vertical-align:baseline;overflow:visible;display:inline-block;width:1px;height:1px;">
+        <div style="width:1000px;height:1px;background:seagreen;"></div>
+    </div>
+    <div style="vertical-align:text-top;overflow:visible;display:inline-block;width:1px;height:1px;">
+        <div style="width:1000px;height:1px;background:rebeccapurple;"></div>
+    </div>
+    <!-- <div style="vertical-align:middle;overflow:visible;display:inline-block;width:1px;height:1px;">
+        <div style="width:1000px;height:1px;background:white;"></div>
+    </div> -->
+    <!-- <div style="vertical-align:sub;overflow:visible;display:inline-block;width:1px;height:2px;">
+        <div style="width:1000px;height:1px;background:fuchsia;"></div>
+    </div>
+    <div style="vertical-align:super;overflow:visible;display:inline-block;width:1px;height:2px;">
+        <div style="width:1000px;height:1px;background:darkorange;"></div> 
+    </div>-->
+    <span style="background-color: lightgreen;">Hello Hello Hello Hello Hello Hello Hello Hello </span>
+    <!-- inline block元素要配合vertical-align使用 行内盒没有文字基线在底部，有文字在文字底部-->
+    <div style="vertical-align:text-bottom;line-height: 70px;width:200px;height:150px;background-color:aqua;display:inline-block;"></div>
+    <div style="vertical-align:top;line-height: 70px;width:200px;height:100px;background-color:greenyellow;display:inline-block;"></div>
+    <div style="vertical-align:text-top;line-height: 70px;width:200px;height:550px;background-color:plum;display:inline-block;"></div>
+</div>
+<script>
+    // $0.getClinetRects();
+</script>
