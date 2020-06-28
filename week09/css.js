@@ -1,3 +1,7 @@
+// 空白页面
+getComputedStyle(document.body)
+getComputedStyle(document.body).length // 290
+// 去掉-webkit-开头的，和svg特有的单独挑出来
 [
     "alignContent",
     "alignItems",

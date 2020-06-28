@@ -1,6 +1,7 @@
 # 每周总结可以写在这里
 1. [CSS选择器](https://www.yuque.com/yangxiaomie/zu16ge/bsz08o)
 2. [CSS排版](https://www.yuque.com/yangxiaomie/zu16ge/om5094)
+3. [CSS渲染与颜色](https://www.yuque.com/yangxiaomie/zu16ge/mb4ggf)
 # 随堂练习
 1. 为什么 first-letter 可以设置 float 之类的，而 first-line 不行呢？
    first-line设置了float就会脱离正常文档流，就不再是first-line了，这样会选中下一行作为first-line，陷入无限循环。

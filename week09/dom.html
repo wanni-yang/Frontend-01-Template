@@ -1,0 +1,16 @@
+<div id="x">
+    <div>1</div>
+    <div>2</div>
+</div id="b">
+<script>
+    // 把x中的子元素 append到b里面
+    var x = document.getElementById('x');
+    var b = document.getElementById('b');
+    // 出错，children实时变化
+    // for(var i = 0; i < x.children.length; i++){
+    //     b.appendChild(x.children[i])
+    // }
+    while(x.children.length){
+        b.appendChild(x.children[0])
+    }
+</script>

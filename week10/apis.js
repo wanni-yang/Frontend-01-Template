@@ -1,4 +1,3 @@
-<script>
 let names = Object.getOwnPropertyNames(window);
 
 function filterOut(names, props) {
@@ -94,5 +93,3 @@ names = filterOut(names, ["SyncManager"]);
 
 
 console.log(names.length);
-
-</script>
