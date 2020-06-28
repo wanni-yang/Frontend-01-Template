@@ -1,0 +1,12 @@
+<div id="a" style="width: 100%;height: 300px; background-color: lightskyblue;">
+<div id="b" style="width: 100%;height: 200px;background-color: pink;"></div>
+</div>
+<script>
+    var a = document.getElementById("a");
+    var b = document.getElementById("b");
+    a.addEventListener('click',()=>console.log('add three param true is 捕获,a'),true);
+    b.addEventListener('click',()=>console.log('add three param true is 捕获,b'),true);
+
+    a.addEventListener('click',()=>console.log('add three param false is 冒泡,a'),false);
+    b.addEventListener('click',()=>console.log('add three param false is 冒泡,b'),false);
+</script>
