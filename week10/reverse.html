@@ -11,25 +11,39 @@
      * @return {object}
      */
     function reverseChildren(element) {
-        // let children = element.childNodes;
+        // 复制一份;
         let children = Array.prototype.slice.call(element.childNodes);
+        // for(let child of children){
+        //     element.removeChild(child);
+        // }
+        // 同上
+        element.innerHTML = "";
+        children.reverse();
+        for(let child of children){
+            element.appendChild(child);
+        }
         
     }
     function reverseChildren1(element){
+        // 同一个元素在DOM树中挂第二次，会自动romove掉这个元素、
+        // 长度不变，最后一个元素不会被后面append进来的元素影响
         var i = element.childNodes.length;
         while(i-- > 0){
             element.appendChild(element.childNodes[i])
         }
     }
     function reverseChildren3(element){
+        // 希望重排次数尽可能少
         let range = new Range();
         range.selectNodeContents(element);
-
+        // 第一次移除所有子节点
         let fragment = range.extractContents();
+        // fragment不是真实的DOM节点，不会有重排和重绘
         var l = fragment.childNodes.length;
         while(l-- > 0){
             fragment.appendChild(fragment.childNodes[l])
         }
+         // 第二次append所有节点
         element.appendChild(fragment);
     }
     reverseChildren3(element)
