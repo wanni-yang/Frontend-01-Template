@@ -8,3 +8,4 @@
 2. 看完第 10 周第 2 节课程，完成 [TicTacToe](https://github.com/wanni-yang/Frontend-01-Template/tree/master/week10/TicTacToe/5.html) 的练习
 3. 根据第 10 周第 2 节课程内容，自己完成一个五子棋的游戏编程（选做）
 4. [把一个元素所有的子元素逆序](https://github.com/wanni-yang/Frontend-01-Template/tree/master/week10/reverse.html)
+5. [请找一个网页，用我们今天讲的 API，把页面上的所有盒的轮廓画到一个 canvas 元素上](https://github.com/wanni-yang/Frontend-01-Template/tree/master/week10/box.js)
