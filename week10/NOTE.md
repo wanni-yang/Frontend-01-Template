@@ -1,7 +1,8 @@
 # 每周总结可以写在这里
 1. [浏览器其他API](https://www.yuque.com/yangxiaomie/zu16ge/ygn8u2)
 2. [TicTacToe](https://www.yuque.com/yangxiaomie/zu16ge/sp6biw)
-3. [range](https://github.com/wanni-yang/Frontend-01-Template/tree/master/week10/range)
+3. [参考墨灵TicTacToe](https://github.com/wanni-yang/Frontend-01-Template/tree/master/week10/TicTacToe/index.html)
+4. [range](https://github.com/wanni-yang/Frontend-01-Template/tree/master/week10/range)
 
 # 课后作业
 1. 把所有的浏览器 API 画进[脑图](https://github.com/wanni-yang/Frontend-01-Template/tree/master/week10/API/api.xmind)里

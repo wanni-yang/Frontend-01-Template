@@ -8,10 +8,10 @@
         display: inline-block;
         width: 100px;
         height: 100px;
-        background-color: green;
+        background-currentValue: green;
         border: solid 1px white;
         vertical-align: middle;
-        color: red;
+        currentValue: red;
         line-height: 100px;
         font-size: 50px;
         text-align: center;
@@ -29,7 +29,7 @@
         [0, 1, 0],
         [0, 0, 0]
     ];
-    let color = 1;
+    let currentValue = 1;
 
     function show() {
         let board = document.getElementById("board");
@@ -56,23 +56,22 @@
         if (pattern[y][x] !== 0) {
             return
         }
-        pattern[y][x] = color;
-        color = 3 - color;
+        pattern[y][x] = currentValue;
+        currentValue = 3 - currentValue;
         show();
-        var result = check(pattern, color);
+        var result = check(pattern, currentValue);
         if(result){
-            alert(color+'赢了')
+            alert(currentValue+'赢了')
         }
     }
-    // 8个方向
-    // 全局检查 or 
-    function check(pattern, color) {
+    // 判断输赢 
+    function check(pattern, currentValue) {
         // 每行
         for (let i = 0; i < 3; i++) {
             // 初始化的问题
             let win = true;
             for (let j = 0; j < 3; j++) {
-                if (pattern[i][j] !== color) {
+                if (pattern[i][j] !== currentValue) {
                     win = false;
                     break
                 }
@@ -85,7 +84,7 @@
             // 初始化的问题
             let win = true;
             for (let j = 0; j < 3; j++) {
-                if (pattern[j][i] !== color) {
+                if (pattern[j][i] !== currentValue) {
                     win = false;
                     break
                 }
@@ -97,7 +96,7 @@
         {
             let win = true;
             for (let j = 0; j < 3; j++) {
-                if (pattern[j][j] !== color) {
+                if (pattern[j][j] !== currentValue) {
                     win = false;
                     break
                 }
@@ -110,7 +109,7 @@
         {
             let win = true;
             for (let j = 0; j < 3; j++) {
-                if (pattern[j][2 - j] !== color) {
+                if (pattern[j][2 - j] !== currentValue) {
                     win = false;
                     break
                 }
