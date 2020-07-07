@@ -32,7 +32,50 @@
     ];
     // 当前落子值
     let currentValue = 1;
-
+    /*
+    2赢不了的case
+    let pattern = [
+        [1, 2, 0],
+        [0, 1, 0],
+        [1, 0, 2]
+    ];
+    let currentValue = 2;
+    1可以赢
+    let pattern = [
+        [1, 2, 0],
+        [0, 1, 0],
+        [0, 0, 2]
+    ];
+    let currentValue = 1;
+    1可以赢
+    let pattern = [
+        [0, 2, 0],
+        [0, 1, 0],
+        [0, 0, 0]
+    ];
+    let currentValue = 1;
+    平局
+    let pattern = [
+        [2, 0, 0],
+        [0, 1, 0],
+        [0, 0, 0]
+    ];
+    let currentValue = 1;
+    1可以赢
+    let pattern = [
+        [0, 0, 0],
+        [2, 1, 0],
+        [0, 0, 0]
+    ];
+    let currentValue = 1;
+    平局
+    let pattern = [
+        [0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0]
+    ];
+    let currentValue = 1;
+    */ 
     function show() {
         let board = document.getElementById("board");
         board.innerHTML = "";
@@ -132,7 +175,7 @@
     function clone(pattern) {
         return JSON.parse(JSON.stringify(pattern));
     }
-
+    // 什么情况下我方即将要赢？
     function willWin() {
         for (let i = 0; i < 3; i++) {
             for (let j = 0; j < 3; j++) {
@@ -148,24 +191,22 @@
             // if (win)
             //     return true;
         }
-        return false;
+        return null;
     }
     /*什么时候会输？我方没有willwin的点，对方willwin的点有两个*/ 
-    function willLose(pattern,currentValue){
-        if(willWin(pattern,currentValue)){
-            return false;
-        }
-    }
+    /* 不管怎么下，对方都有willWin的点*/
+    /* 通过递归*/ 
     function bestChoice(pattern,currentValue){
         let point = willWin(pattern,currentValue);
         if(point){
             return {
-                point:point,
-                result:1
+                point: point,
+                result: 1
             }
         }
         // 开始默认要输
         let result = -1;
+        // 找出对方的bestchoice
         for (let i = 0; i < 3; i++) {
             for (let j = 0; j < 3; j++) {
                 if (pattern[i][j] !== 0) {
@@ -173,15 +214,16 @@
                 }
                 let tmp = clone(pattern);
                 tmp[i][j] = currentValue;
-                let opp = bestChoice(pattern,2-currentValue) 
-                if(-opp.result >= result){
-                    point = [j,i];
-                    result = -opp.result;
+                let opp = bestChoice(tmp,3 - currentValue) 
+                // opp.result是我方的，-opp.result是对方的
+                if( -opp.result >= result){
+                    point = [j, i];
+                    result = - opp.result;
                 }
                 
             }
         }
-        
+        // 返回坐标;-1:输 0:平 1:赢
         return {
             point:point,
             result:point ? result :0
