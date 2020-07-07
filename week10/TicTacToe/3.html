@@ -1,0 +1,190 @@
+<html>
+<style>
+    #board {
+        width: 350px;
+    }
+
+    .cell {
+        display: inline-block;
+        vertical-align: middle;
+        width: 100px;
+        height: 100px;
+        background-color: green;
+        border: solid 1px white;
+        /* 棋子 */
+        color: red;
+        line-height: 100px;
+        font-size: 50px;
+        text-align: center;
+    }
+</style>
+
+<body>
+    <div id="board"></div>
+</body>
+
+</html>
+<script>
+    let pattern = [
+        [2, 0, 0],
+        [0, 1, 0],
+        [0, 0, 0]
+    ];
+    // 当前落子值
+    let currentValue = 1;
+
+    function show() {
+        let board = document.getElementById("board");
+        board.innerHTML = "";
+
+        for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 3; j++) {
+                // j作用域在内部
+                let cell = document.createElement("div");
+                cell.classList.add("cell");
+                // 连续三目运算，三种状态，2:x, 1:o, ""
+                cell.innerHTML =
+                    pattern[i][j] == 2 ? "X" :
+                    pattern[i][j] == 1 ? "O" :
+                    "";
+                // j是x坐标 i是y坐标 绑定过多事件不影响性能，触发过多事件才会影响性能
+                cell.addEventListener("click", () => move(j, i));
+                board.appendChild(cell);
+            }
+        }
+    }
+    // 下子
+    function move(x, y) {
+        // 判断有没有值
+        if (pattern[y][x] !== 0) {
+            return
+        }
+        pattern[y][x] = currentValue;
+        // 1变2 2变1，交替落子
+        currentValue = 3 - currentValue;
+        show();
+        if (willWin(pattern, currentValue)) {
+            console.log(currentValue + "快赢了")
+            alert(currentValue + "is winner")
+        }
+    }
+    // 判断输赢
+    function check(pattern, currentValue) {
+        // 每行
+        for (let i = 0; i < 3; i++) {
+            // 初始化的问题
+            let win = true;
+            for (let j = 0; j < 3; j++) {
+                if (pattern[i][j] !== currentValue) {
+                    win = false;
+                    break
+                }
+            }
+            if (win)
+                return true;
+        }
+        // 每列
+        for (let i = 0; i < 3; i++) {
+            // 初始化的问题
+            let win = true;
+            for (let j = 0; j < 3; j++) {
+                if (pattern[j][i] !== currentValue) {
+                    win = false;
+                    break
+                }
+            }
+            if (win)
+                return true;
+        }
+        // 正斜 x=y
+        {
+            let win = true;
+            for (let j = 0; j < 3; j++) {
+                if (pattern[j][j] !== currentValue) {
+                    win = false;
+                    break
+                }
+            }
+            if (win)
+                return true;
+        }
+
+        // 反斜 x+y = 2
+        {
+            let win = true;
+            for (let j = 0; j < 3; j++) {
+                if (pattern[j][2 - j] !== currentValue) {
+                    win = false;
+                    break
+                }
+            }
+            if (win)
+                return true;
+        }
+        return false
+    }
+
+    /*
+    判断pattern是否快赢了
+    1.算权重是棋类AI常用的算法，但是TicTacToe是计算机可以穷尽的，不需要估值
+    2.复制pattern,尝试给每个空白处落子。
+    */
+    function clone(pattern) {
+        return JSON.parse(JSON.stringify(pattern));
+    }
+
+    function willWin() {
+        for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 3; j++) {
+                if (pattern[i][j] !== 0) {
+                    continue
+                }
+                let tmp = clone(pattern);
+                tmp[i][j] = currentValue;
+                if (check(tmp, currentValue)) {
+                    return [j,i];
+                }
+            }
+            // if (win)
+            //     return true;
+        }
+        return false;
+    }
+    /*什么时候会输？我方没有willwin的点，对方willwin的点有两个*/ 
+    function willLose(pattern,currentValue){
+        if(willWin(pattern,currentValue)){
+            return false;
+        }
+    }
+    function bestChoice(pattern,currentValue){
+        let point = willWin(pattern,currentValue);
+        if(point){
+            return {
+                point:point,
+                result:1
+            }
+        }
+        // 开始默认要输
+        let result = -1;
+        for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 3; j++) {
+                if (pattern[i][j] !== 0) {
+                    continue
+                }
+                let tmp = clone(pattern);
+                tmp[i][j] = currentValue;
+                let opp = bestChoice(pattern,2-currentValue) 
+                if(-opp.result >= result){
+                    point = [j,i];
+                    result = -opp.result;
+                }
+                
+            }
+        }
+        return {
+            point:point,
+            result:point ? result :0
+        }
+    }
+    show(pattern);
+</script>

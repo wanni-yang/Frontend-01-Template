@@ -63,9 +63,9 @@
         // 1变2 2变1，交替落子
         currentValue = 3 - currentValue;
         show();
-        if(willwin(pattern,currentValue)){
-            console.log(currentValue+"快赢了")
-            alert(currentValue+"is winner")
+        if (willwin(pattern, currentValue)) {
+            console.log(currentValue + "快赢了")
+            alert(currentValue + "is winner")
         }
     }
     // 判断输赢
@@ -123,16 +123,17 @@
         }
         return false
     }
-    
+
     /*
     判断pattern是否快赢了
     1.算权重是棋类AI常用的算法，但是TicTacToe是计算机可以穷尽的，不需要估值
     2.复制pattern,尝试给每个空白处落子。
     */
-   function clone(pattern){
-       return JSON.parse(JSON.stringify(pattern));
-   }
-    function willwin(){
+    function clone(pattern) {
+        return JSON.parse(JSON.stringify(pattern));
+    }
+
+    function willwin() {
         for (let i = 0; i < 3; i++) {
             for (let j = 0; j < 3; j++) {
                 if (pattern[i][j] !== 0) {
@@ -140,12 +141,12 @@
                 }
                 let tmp = clone(pattern);
                 tmp[i][j] = currentValue;
-                if(check(tmp,currentValue)){
+                if (check(tmp, currentValue)) {
                     return true;
                 }
             }
-            if (win)
-                return true;
+            // if (win)
+            //     return true;
         }
         return false;
     }
