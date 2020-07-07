@@ -80,18 +80,18 @@
         let board = document.getElementById("board");
         board.innerHTML = "";
 
-        for (let i = 0; i < 3; i++) {
-            for (let j = 0; j < 3; j++) {
+        for (let y = 0; y < 3; y++) {
+            for (let x = 0; x < 3; x++) {
                 // j作用域在内部
                 let cell = document.createElement("div");
                 cell.classList.add("cell");
                 // 连续三目运算，三种状态，2:x, 1:o, ""
                 cell.innerHTML =
-                    pattern[i][j] == 2 ? "X" :
-                    pattern[i][j] == 1 ? "O" :
+                    pattern[y][x] == 2 ? "X" :
+                    pattern[y][x] == 1 ? "O" :
                     "";
                 // j是x坐标 i是y坐标 绑定过多事件不影响性能，触发过多事件才会影响性能
-                cell.addEventListener("click", () => move(j, i));
+                cell.addEventListener("click", () => move(x, y));
                 board.appendChild(cell);
             }
         }
@@ -114,11 +114,11 @@
     // 判断输赢
     function check(pattern, currentValue) {
         // 每行
-        for (let i = 0; i < 3; i++) {
+        for (let y = 0; y < 3; y++) {
             // 初始化的问题
             let win = true;
-            for (let j = 0; j < 3; j++) {
-                if (pattern[i][j] !== currentValue) {
+            for (let x = 0; x < 3; x++) {
+                if (pattern[y][x] !== currentValue) {
                     win = false;
                     break
                 }
@@ -127,11 +127,11 @@
                 return true;
         }
         // 每列
-        for (let i = 0; i < 3; i++) {
+        for (let y = 0; y < 3; y++) {
             // 初始化的问题
             let win = true;
-            for (let j = 0; j < 3; j++) {
-                if (pattern[j][i] !== currentValue) {
+            for (let x = 0; x < 3; x++) {
+                if (pattern[x][y] !== currentValue) {
                     win = false;
                     break
                 }
@@ -142,8 +142,8 @@
         // 正斜 x=y
         {
             let win = true;
-            for (let j = 0; j < 3; j++) {
-                if (pattern[j][j] !== currentValue) {
+            for (let x = 0; x < 3; x++) {
+                if (pattern[x][x] !== currentValue) {
                     win = false;
                     break
                 }
@@ -155,8 +155,8 @@
         // 反斜 x+y = 2
         {
             let win = true;
-            for (let j = 0; j < 3; j++) {
-                if (pattern[j][2 - j] !== currentValue) {
+            for (let x = 0; x < 3; x++) {
+                if (pattern[x][2 - x] !== currentValue) {
                     win = false;
                     break
                 }
@@ -177,19 +177,17 @@
     }
     // 什么情况下我方即将要赢？
     function willWin() {
-        for (let i = 0; i < 3; i++) {
-            for (let j = 0; j < 3; j++) {
-                if (pattern[i][j] !== 0) {
+        for (let y = 0; y < 3; y++) {
+            for (let x = 0; x < 3; x++) {
+                if (pattern[y][x] !== 0) {
                     continue
                 }
                 let tmp = clone(pattern);
-                tmp[i][j] = currentValue;
+                tmp[y][x] = currentValue;
                 if (check(tmp, currentValue)) {
-                    return [j,i];
+                    return [x,y];
                 }
             }
-            // if (win)
-            //     return true;
         }
         return null;
     }
@@ -197,6 +195,7 @@
     /* 不管怎么下，对方都有willWin的点*/
     /* 通过递归*/ 
     function bestChoice(pattern,currentValue){
+        // willWin的情况，递归的初始条件
         let point = willWin(pattern,currentValue);
         if(point){
             return {
@@ -206,18 +205,19 @@
         }
         // 开始默认要输
         let result = -1;
-        // 找出对方的bestchoice
-        for (let i = 0; i < 3; i++) {
-            for (let j = 0; j < 3; j++) {
-                if (pattern[i][j] !== 0) {
-                    continue
+        // 模拟每走一步以后，找出对方的bestchoice，选出对我方最有利的结果
+        for (let y = 0; y < 3; y++) {
+            for (let x = 0; x < 3; x++) {
+                if (pattern[y][x] !== 0) {
+                    continue;
                 }
                 let tmp = clone(pattern);
-                tmp[i][j] = currentValue;
+                tmp[y][x] = currentValue;
+                // 对方的bestchoice最差的结果就是我方要走的
                 let opp = bestChoice(tmp,3 - currentValue) 
-                // opp.result是我方的，-opp.result是对方的
+                // opp.result是我方的，-opp.result是对方的最差结果
                 if( -opp.result >= result){
-                    point = [j, i];
+                    point = [x, y];
                     result = - opp.result;
                 }
                 
