@@ -26,8 +26,8 @@
 </html>
 <script>
     let pattern = [
-        [2, 0, 0],
-        [0, 1, 0],
+        [0, 0, 0],
+        [0, 0, 0],
         [0, 0, 0]
     ];
     // 当前落子值
@@ -191,10 +191,39 @@
         }
         return null;
     }
+    function userMove(x,y){
+        pattern[y][x] = currentValue;
+        if(check(pattern,currentValue)){
+            alert(currentValue == 2 ? "X is winner!" : "O is winner!");
+        }
+        currentValue = 3 - currentValue;
+        show();
+    }
+    function computerMove(){
+        let choice = bestChoice(pattern,currentValue);
+        if(choice.point){
+            pattern[choice.point[1]][choice.point[2]] = currentValue; 
+        }
+        currentValue = 3 - currentValue;
+        show();
+    }
+    let opening = new Map();
+    opening.set([
+        [0,0,0],
+        [0,0,0],
+        [0,0,0]
+    ].toString(),{
+        point:[1,1],
+        result:0
+    })
     /*什么时候会输？我方没有willwin的点，对方willwin的点有两个*/ 
     /* 不管怎么下，对方都有willWin的点*/
     /* 通过递归*/ 
     function bestChoice(pattern,currentValue){
+        // 第一个位置
+        if(opening.has(pattern.toString())){
+            return opening.get(pattern.toString());
+        }
         // willWin的情况，递归的初始条件
         let point = willWin(pattern,currentValue);
         if(point){
@@ -207,7 +236,7 @@
         let result = -1;
         // 剪枝
         // 模拟每走一步以后，找出对方的bestchoice，选出对我方最有利的结果
-        for (let y = 0; y < 3; y++) {
+        outer: for (let y = 0; y < 3; y++) {
             for (let x = 0; x < 3; x++) {
                 if (pattern[y][x] !== 0) {
                     continue;
@@ -221,7 +250,10 @@
                     point = [x, y];
                     result = - opp.result;
                 }
-                
+                // 输赢剪枝
+                if(result == 1){
+                    break outer;
+                }
             }
         }
         // 返回坐标;-1:输 0:平 1:赢
