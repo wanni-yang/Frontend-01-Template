@@ -31,6 +31,7 @@
                 if(mouse) {
                     if(clear) {
                         cell.style.backgroundColor = '';
+                        // 一维数组，表示二维位置
                         map[y * 100 + x] = 0;
                     } else {
                         cell.style.backgroundColor = 'black';
@@ -57,24 +58,27 @@
     function findPath(map, start, end) {
         let queue = [start];
 
-        function insert(x, y){
+        function insert([x, y]){
             if(x < 0 || x >= 100 || y < 0 || y >= 100){
                 return ;
             }
+            // 有障碍
             if(map[y * 100 + x])
                 return ;
+            // 标记该点已经走过，为2
             map[y * 100 + x] = 2;
-            queue.push(x, y);
+            queue.push([x, y]);
         }
         while(queue.length){
             let [x, y] = queue.shift();
+            console.log(x,y)
             if(x === end[0] && y === end[1]){
                 return true
             }
-            insert(x - 1, y);
-            insert(x, y - 1);
-            insert(x + 1, y);
-            insert(x, y - 1);
+            insert([x - 1, y]);
+            insert([x, y - 1]);
+            insert([x + 1, y]);
+            insert([x, y - 1]);
         }
         return false;
     }
