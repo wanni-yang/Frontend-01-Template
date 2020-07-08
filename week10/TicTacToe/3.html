@@ -108,8 +108,9 @@
         show();
         if (willWin(pattern, currentValue)) {
             console.log(currentValue + "快赢了")
-            alert(currentValue + "is winner")
+            alert(currentValue + "快赢了")
         }
+        computerMove()
     }
     // 判断输赢
     function check(pattern, currentValue) {
@@ -201,18 +202,20 @@
     }
     function computerMove(){
         let choice = bestChoice(pattern,currentValue);
+        console.log(choice)
         if(choice.point){
-            pattern[choice.point[1]][choice.point[2]] = currentValue; 
+            pattern[choice.point[0]][choice.point[1]] = currentValue; 
         }
         currentValue = 3 - currentValue;
         show();
     }
     let opening = new Map();
+    // +1表示hash +currentValue
     opening.set([
         [0,0,0],
         [0,0,0],
         [0,0,0]
-    ].toString(),{
+    ].toString() + "1",{
         point:[1,1],
         result:0
     })
@@ -221,8 +224,8 @@
     /* 通过递归*/ 
     function bestChoice(pattern,currentValue){
         // 第一个位置
-        if(opening.has(pattern.toString())){
-            return opening.get(pattern.toString());
+        if(opening.has(pattern.toString()+ currentValue)){
+            return opening.get(pattern.toString() + currentValue);
         }
         // willWin的情况，递归的初始条件
         let point = willWin(pattern,currentValue);
