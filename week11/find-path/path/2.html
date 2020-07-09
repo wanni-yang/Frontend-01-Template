@@ -37,9 +37,7 @@
                         map[y * 100 + x] = 1;
                     }
                 }
-                    
             })
-
             container.appendChild(cell);
         }
     }
@@ -64,22 +62,23 @@
         let queue = [start];
 
         async function insert([x, y]){
+            // 出边界
             if(x < 0 || x >= 100 || y < 0 || y >= 100){
                 return ;
             }
+            // 有障碍
             if(map[y * 100 + x])
                 return ;
-            // 
-            
+            // 可视化寻找过程
             container.children[y*100 + x].style.backgroundColor = 'lightgreen';
-
+            // 标记已走的点
             map[y * 100 + x] = 2;
             await sleep(5);
             queue.push([x, y]);
         }
         while(queue.length){
             let [x, y] = queue.shift();
-            console.log(x,y)
+            // console.log(x,y)
             if(x === end[0] && y === end[1]){
                 return true
             }

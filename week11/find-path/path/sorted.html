@@ -17,6 +17,36 @@
 <button onclick="localStorage.map = JSON.stringify(map)">save</button>
 
 <script>
+    // 
+    class Sorted {
+        constructor(data, compare) {
+            this.data = data.slice();
+            this.compare = compare || ((a, b) => a - b);
+        }
+        take() {
+            if (!this.data.length)
+                return;
+            let min = this.data[0];
+            let minIndex = 0;
+
+            for (let i = 1; i < this.data.length; i++) {
+                if (this.compare(this.data[i], min) < 0) {
+                    min = this.data[i];
+                    minIndex = i;
+                }
+            }
+
+            this.data[minIndex] = this.data[this.data.length - 1];
+            this.data.pop();
+            return min;
+        }
+        give(v) {
+            this.data.push(v);
+        }
+        get length() {
+            return this.data.length;
+        }
+    }
     // 保存图画
     var map = localStorage.map ? JSON.parse(localStorage.map) : new Array(10000).fill(0);
     let container = document.getElementById("container");
@@ -60,12 +90,11 @@
             setTimeout(resolve, t);
         });
     }
-
     async function findPath(map, start, end) {
         // 
         let table = Object.create(map);
-        let queue = [start];
-        // 起止点
+        // 用sorted启发搜索
+        let collection = new Sorted([start], (a, b) => distance(a) - distance(b));
         container.children[start[1] * 100 + start[0]].style.backgroundColor = 'blue';
         container.children[end[1] * 100 + end[0]].style.backgroundColor = 'red';
         async function insert(x, y, pre) {
@@ -77,23 +106,25 @@
             // 
             await sleep(1);
             container.children[y * 100 + x].style.backgroundColor = 'lightgreen';
-            // 标记当前点的上一个点坐标pre:[x,y]table记录的是当前点的上一个点
+            // 
             table[y * 100 + x] = pre;
-            // queue 绿点
-            queue.push([x,y]);
+            // 
+            collection.give([x, y]);
         }
-        while (queue.length) {
-            let [x, y] = queue.shift();
+
+        function distance(point) {
+            return (point[0] - end[0]) ** 2 + (point[1] - end[1]) ** 2
+        }
+        while (collection.length) {
+            let [x, y] = collection.take();
             if (x === end[0] && y === end[1]) {
-                //搜索到终点的时候，从终点往回找记录寻找的路径 紫色点
+                // 
                 let path = [];
                 while (x != start[0] || y != start[1]) {
                     path.push(table[y * 100 + x]);
-                    // 画最优路径的可视化
                     await sleep(30);
-                    // 模式匹配,移动x y一步一步的找上一个点直到起点
-                    [x, y] = table[y * 100 + x];
                     container.children[y * 100 + x].style.backgroundColor = 'purple';
+                    [x, y] = table[y * 100 + x];
                 }
                 return path;
             }

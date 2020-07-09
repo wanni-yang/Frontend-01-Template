@@ -70,11 +70,12 @@
             queue.push([x, y]);
         }
         while(queue.length){
+            // 起点
             let [x, y] = queue.shift();
-            console.log(x,y)
             if(x === end[0] && y === end[1]){
                 return true
             }
+            // 当前点的上下左右都插入队列
             insert([x - 1, y]);
             insert([x, y - 1]);
             insert([x + 1, y]);
