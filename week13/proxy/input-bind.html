@@ -1,0 +1,61 @@
+<input id="r">
+<script>
+    let handlers = new Map();
+    let reactivities = new Map();
+    let usedReactivities = []; //可以用set,就不会有重复
+
+    function reactive(obj) {
+        if (reactivities.has(obj)) {
+            return reactivities.get(obj);
+        }
+        let proxy = new Proxy(obj, {
+            get(obj, prop) {
+                usedReactivities.push([obj, prop]);
+                // update
+                if (typeof obj[prop] === "object")
+                    return reactive(obj[prop])
+                return obj[prop]
+            },
+            set(obj, prop, val) {
+                obj[prop] = val;
+                if (handlers.get(obj))
+                    if (handlers.get(obj).get(prop))
+                        for (let handler of handlers.get(obj).get(prop))
+                            handler();
+                return obj[prop];
+            }
+        })
+        reactivities.set(obj, proxy);
+        reactivities.set(proxy, proxy);
+        return proxy;
+    }
+    // 每次都执行全部的handler,解决重复执行的问题用依赖收集处理
+    // 先清空再收集，依赖收集
+    function effect(handler) {
+        usedReactivities = [];
+        handler();
+        for (let usedReactivity of usedReactivities) {
+            let [obj, prop] = usedReactivity;
+            if (!handlers.has(obj)) {
+                handlers.set(obj, new Map())
+            }
+            if (!handlers.get(obj).has(prop)) {
+                handlers.get(obj).set(prop, [])
+            }
+            handlers.get(obj).get(prop).push(handler)
+
+        }
+    }
+    // 变量到输入框的单向绑定
+    let p = reactive({ r: 100,});
+    effect(() => {
+        document.getElementById("r").value = p.r;
+    });
+
+    // 输入框到变量单向绑定
+    document.getElementById("r").addEventListener('input', event => {
+        p.r = event.target.value;
+    })
+    // case
+    p.r = 20;//input value = 20
+</script>
