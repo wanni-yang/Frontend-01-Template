@@ -46,7 +46,7 @@
     // case1 dummy跟着proxy变化
     let proxy = reactive(object);
     effect(() => dummy = proxy.a);
-    console.log('dummy object prop a ',dummy)
+    console.log('dummy绑定proxy.a的值 ',dummy)
     proxy.a = 2;
     console.log('proxy.a=2，dummy的值 ',dummy);
     // case2 改p1的值，v1和v12的值会跟着变;改p1的值，v2和v12的值会跟着变;
