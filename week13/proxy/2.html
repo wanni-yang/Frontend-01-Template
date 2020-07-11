@@ -1,7 +1,7 @@
 <script>
     let handlers = new Map();
     let reactivities = new Map();
-    let usedReactivities = [];
+    let usedReactivities = [];//可以用set,就不会有重复
     let object = {
         // 嵌套
         a: {x:1},
@@ -29,6 +29,7 @@
             }
         })
         reactivities.set(obj,proxy);
+        reactivities.set(proxy,proxy);
         return proxy;
     }
     // 每次都执行全部的handler,解决重复执行的问题用依赖收集处理
