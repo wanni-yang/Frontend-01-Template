@@ -1,0 +1,24 @@
+<script>
+    let price = 5;
+    let quantity = 2;
+    let total = 0;
+    let target = null;
+    let storage = [];
+
+    target = () => total = price * quantity;//handler
+
+    function record(){
+        // effect
+        storage.push(target)
+    }
+    function replay(){
+        // reactivity
+        storage.forEach(run => run())
+    }
+    record();
+    target();
+     price = 20;
+    console.log(total);
+    replay();
+    console.log(total);
+</script>

@@ -1,0 +1,38 @@
+<script>
+    let price = 5;
+    let quantity = 2;
+    let total = 0;
+    let target = null;
+    let storage = [];
+
+    // 管理依赖
+    class Dependency{
+        constructor(){
+            this.subScribes = [];//storage
+        }
+        depend(){//record effect
+            if(target && !this.subScribes.includes(target)){
+                this.subScribes.push(target)
+            }
+        }
+        notify(){//replay reactivity
+            this.subScribes.forEach(run => run());
+        }
+    }
+    const dep = new Dependency();
+
+    let price = 5;
+    let quantity = 2;
+    let total = 0;
+    
+    let target = () => total = price * quantity;
+    dep.depend();
+    target();
+
+    console.log(total);
+
+    price = 20;
+    console.log(total);
+    dep.notify();
+    console.log(total);
+</script>
