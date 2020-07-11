@@ -11,13 +11,13 @@
     function reactive(obj) {
         return new Proxy(obj, {
             get(obj, prop) {
-                usedReactivities.push([obj,prop]);
+                usedReactivities.push([obj, prop]);
                 return obj[prop]
             },
             set(obj, prop, val) {
                 obj[prop] = val;
-                if(handlers.get(obj))
-                    if(handlers.get(obj).get(prop))
+                if (handlers.get(obj))
+                    if (handlers.get(obj).get(prop))
                         for (let handler of handlers.get(obj).get(prop))
                             handler();
                 return obj[prop];
@@ -29,39 +29,47 @@
     function effect(handler) {
         usedReactivities = [];
         handler();
-        for(let usedReactivity of usedReactivities){
+        for (let usedReactivity of usedReactivities) {
             let [obj, prop] = usedReactivity;
-            if(!handlers.has(obj)){
+            if (!handlers.has(obj)) {
                 handlers.set(obj, new Map())
             }
-            if(!handlers.get(obj).has(prop)){
+            if (!handlers.get(obj).has(prop)) {
                 handlers.get(obj).set(prop, [])
             }
             handlers.get(obj).get(prop).push(handler)
 
         }
     }
-    
+
     // 监听proxy上面的事件
     // case1 dummy跟着proxy变化
     let proxy = reactive(object);
     effect(() => dummy = proxy.a);
-    console.log('dummy绑定proxy.a的值 ',dummy)
+    console.log('dummy绑定proxy.a的值 ', dummy)
     proxy.a = 2;
-    console.log('proxy.a=2，dummy的值 ',dummy);
-    // case2 改p1的值，v1和v12的值会跟着变;改p1的值，v2和v12的值会跟着变;
-    let v12,v1,v2;
-    let p1 = reactive({a:1});
-    let p2 = reactive({a:2});
+    console.log('proxy.a=2，dummy的值 ', dummy);
+    // case2 改p1的值，v1和v12的值会跟着变;改p2的值，v2和v12的值会跟着变;
+    let v12, v1, v2;
+    let p1 = reactive({
+        a: 1
+    });
+    let p2 = reactive({
+        a: 2
+    });
     effect(() => v12 = p1.a + p2.a);
     effect(() => v1 = p1.a);
     effect(() => v2 = p2.a);
     // case3 欺骗依赖
     let v;
-    let p3 = reactive({a:1});
-    let p4 = reactive({a:2});
+    let p3 = reactive({
+        a: 1
+    });
+    let p4 = reactive({
+        a: 2
+    });
     let b = false;
-    effect(() => v = b?2:p3.a);
+    effect(() => v = b ? 2 : p3.a);
     console.log(v)
     b = true
     p3.a = 10;
