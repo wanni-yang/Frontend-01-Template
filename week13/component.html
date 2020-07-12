@@ -1,0 +1,40 @@
+<script>
+
+class MyComponent extends Component{
+    // react中props等效于config
+	constructor(config){//config 项目中配置的ENV
+  	this.state = {
+    	value: nulls
+    }
+  }
+  get prop1(){
+    
+  }
+  set prop1(){
+    
+  }
+//leftcycle react hooks
+  mouted(){}
+  render(){}
+  getAttribute(attr){
+    
+  }
+  setAttribute(attr, value){
+  
+  }
+}
+// vue
+let MyComponent = 
+<template>
+    <MyComponent $ref = "abc" class = "2">
+        <div></div>
+    </MyComponent>
+</template>
+export default{
+    mouted(){
+        this.$ref('abc').class = 1;
+    }
+}
+// 上面class = 2和 this.$ref('abc').class = 1;是否一致
+// react中是视为一致的
+</script>
