@@ -8,14 +8,18 @@
             height: 300px;
             white-space: nowrap;
             outline: 1px solid blue;
-            /* overflow: hidden; */
+            overflow: hidden;
+            /* 可以看到transform的过程 */
+            /* zoom: 0.25; */
+            margin: auto;
         }
 
         .carousel>img {
             width: 100%;
             height: 100%;
             /* display: inline-block; */
-            transition: ease 0.5s;
+            transition: transform ease 1s;
+
         }
     </style>
 </head>
@@ -29,6 +33,7 @@
                 this.data = null;
             }
             render() {
+                // 处理逻辑
                 this.root = document.createElement('div');
                 this.root.classList.add('carousel');
 
@@ -42,14 +47,43 @@
                     let nextPosition = [position + 1] % this.data.length;
                     let current = this.root.childNodes[position];
                     let next = this.root.childNodes[nextPosition];
+                    // 开始动画
+                    current.style.transition = "ease 0s";
+                    next.style.transition = "ease 0s";
+
+                    // 起始
                     current.style.transform = `translateX(${-100 * position}%) `
-                    next.style.transform = `translateX(${-100 * nextPosition}%) `
-                    position = nextPosition;
+                    next.style.transform = `translateX(${100 -100 * nextPosition}%) `
+                    // 第一个是上面css生效的代码
+                    // requestAnimationFrame(function(){
+                    //     requestAnimationFrame(function(){
+                    //         current.style.transition = "ease 0.5s";
+                    //         next.style.transition = "ease 0.5s";
+                    //         // 往左移动100%
+                    //         current.style.transform = `translateX(${-100 -100 * position}%) `
+                    //         next.style.transform = `translateX(${-100 * nextPosition}%) `
+                    //         // 时序问题
+                    //         position = nextPosition;
+                    //     })
+                    // })
+                    setTimeout(function(){
+                        // use css rule
+                        current.style.transition = "";
+                        next.style.transition = "";
+                        // 往左移动100%
+                        current.style.transform = `translateX(${-100 -100 * position}%) `
+                        next.style.transform = `translateX(${-100 * nextPosition}%) `
+                        // 时序问题
+                        position = nextPosition;
+                    },16)
+                    
+                    
                     setTimeout(nextPic, 3000);
                 }
-                nextPic()
+                setTimeout(nextPic, 3000);
             }
         }
+        // create
         let carousel = new Carousel();
         // update
         carousel.data = [
@@ -58,6 +92,7 @@
             "https://static001.geekbang.org/resource/image/b6/4f/b6d65b2f12646a9fd6b8cb2b020d754f.jpg",
             "https://static001.geekbang.org/resource/image/73/e4/730ea9c393def7975deceb48b3eb6fe4.jpg",
         ];
+        // update
         carousel.render();
         // mount
         document.getElementById("container").appendChild(carousel.root)
