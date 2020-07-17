@@ -85,7 +85,7 @@
                     current.style.transition = "none";
                     next.style.transition = "none";
                     last.style.transition = "none";
-                    // 鼠标点下去设置三个的位置 500需要用cssom取一下尺寸
+                    // 因为在第一次轮播后第三个坑位是没有图的，mousedown是为了让对应的图放到第三个坑位内，做好下一次动画的准备
                     current.style.transform = `translateX(${-500 * position}px) ` // 0
                     last.style.transform = `translateX(${-500 -500* lastPosition}px) `// -1
                     next.style.transform = `translateX(${500-500 * nextPosition}px) ` //1

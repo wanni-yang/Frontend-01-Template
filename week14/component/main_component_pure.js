@@ -1,10 +1,5 @@
 // import "./foo";
-/**
- * 
- * @param {*carousel} Cls crarousel
- * @param {*} attributes 
- * @param  {...any} children 
- */ 
+/*纯净版*/ 
 // 框架代码 将jsx写法翻译为用户代码
 function create(Cls, attributes, ...children) {
     // 

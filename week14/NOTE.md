@@ -4,4 +4,4 @@
 
 # 作业
 1. [组件化](https://github.com/wanni-yang/Frontend-01-Template/tree/master/week14/component)
-2. [轮播组件](https://github.com/wanni-yang/Frontend-01-Template/tree/master/week14/crarousel)
+2. [轮播组件](https://github.com/wanni-yang/Frontend-01-Template/tree/master/week14/carousel)
