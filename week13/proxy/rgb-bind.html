@@ -15,6 +15,7 @@
     }
 
     function reactive(obj) {
+        // 同一个对象
         if (reactivities.has(obj)) {
             return reactivities.get(obj);
         }
