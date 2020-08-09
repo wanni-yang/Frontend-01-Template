@@ -4,11 +4,12 @@
     // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+    
         {
-            "name": "Run match.js",
+            "name": "Run component",
             "type": "node",
             "request": "launch",
-            "program": "${workspaceRoot}/week06/client.js",
+            "program": "${workspaceRoot}/week14/component/main.js",
             "stopOnEntry": false,
             "args": [],
             "cwd": "${workspaceRoot}",
