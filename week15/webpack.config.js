@@ -16,7 +16,7 @@ module.exports = {
             {
                 test:/\.toyvue/,
                 use:{
-                    loader:require.resolve('myloader.js')
+                    loader:require.resolve('./myloader.js') //将myloader变成有效的webpack loader
                 }
             }
         ]
