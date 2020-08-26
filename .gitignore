@@ -2,4 +2,7 @@
 .idea
 node_modules/
 .vscode/
+package-lock.json
+*.pdf
+.gitignore
 dist/
