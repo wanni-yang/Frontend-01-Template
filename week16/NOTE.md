@@ -1,1 +1,2 @@
-# 每周总结可以写在这里
+# 笔记
+[轮播组件2](https://www.yuque.com/yangxiaomie/zu16ge/ozh0du)
