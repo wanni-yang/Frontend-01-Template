@@ -1,0 +1,14 @@
+.carousel {
+  width: 500px;
+  height: 300px;
+  margin: auto;
+  white-space: nowrap;
+  outline: 1px solid blueviolet;
+  overflow: hidden;
+}
+
+.carousel > img {
+  width: 500px;
+  height: 300px;
+  display: inline-block;
+}
