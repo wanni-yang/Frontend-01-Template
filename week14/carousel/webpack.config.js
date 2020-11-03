@@ -1,7 +1,7 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlWebpackPluginConfig = {
-  title: 'aaa',
+  title: 'carousel',
   filename: 'index.html',
   template:'./src/index.html',
   inject:'body'

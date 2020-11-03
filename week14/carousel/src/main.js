@@ -5,6 +5,7 @@ class Carousel {
     this.children = []
     this.attributes = new Map()
     this.properties = new Map()
+    
   }
 
   setAttribute(name, value) {
@@ -14,7 +15,7 @@ class Carousel {
   appendChild(child) {
     this.children.push(child)
   }
-
+  
   render() {
     let children = this.data.map(url => {
       let element = <img src={url} />
@@ -51,23 +52,23 @@ class Carousel {
 
       setTimeout(nextPic, 3000)
     }
-    setTimeout(nextPic, 3000)
+    // setTimeout(nextPic, 3000)
 
     root.addEventListener('mousedown', () => {
       let startX = event.clientX, startY = event.clientY
 
-      let lastPosition = (position - 1 + this.data.length) % this.data.length
+      let lastPosition = (position - 1 + this.data.length) % this.data.length // fix -1
       let nextPosition = (position + 1) % this.data.length
 
 
       let current = children[position]
       let last = children[lastPosition]
       let next = children[nextPosition]
-
+      // 关掉动画
       current.style.transition = 'ease 0s'
       last.style.transition = 'ease 0s'
       next.style.transition = 'ease 0s'
-
+      
       current.style.transform = `translateX(${- 500 * position}px)`
       last.style.transform = `translateX(${-500 - 500 * lastPosition}px)`
       next.style.transform = `translateX(${500 - 500 * nextPosition}px)`
@@ -86,7 +87,7 @@ class Carousel {
         } else if (event.clientX - startX < -250) {
           offset = -1
         }
-
+        // 打开动画
         current.style.transition = ''
         last.style.transition = ''
         next.style.transition = ''
@@ -113,11 +114,11 @@ class Carousel {
   }
 }
 
-let componet = <Carousel data={[
+let carousel = <Carousel data={[
     'https://static001.geekbang.org/resource/image/bb/21/bb38fb7c1073eaee1755f81131f11d21.jpg',
     'https://static001.geekbang.org/resource/image/1b/21/1b809d9a2bdf3ecc481322d7c9223c21.jpg',
     'https://static001.geekbang.org/resource/image/b6/4f/b6d65b2f12646a9fd6b8cb2b020d754f.jpg',
     'https://static001.geekbang.org/resource/image/73/e4/730ea9c393def7975deceb48b3eb6fe4.jpg',
 ]} />
 
-componet.mountTo(document.body)
+carousel.mountTo(document.body)
