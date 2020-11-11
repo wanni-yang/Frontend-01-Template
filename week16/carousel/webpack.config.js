@@ -19,7 +19,7 @@ const config = {
       },
       {
         test: /\.css$/,
-        use: require.resolve('./css-loader.js')
+        use: require.resolve('./src/lib/css-loader.js')
       }
     ]
   },
