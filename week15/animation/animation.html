@@ -20,15 +20,14 @@
 <div id="el2"></div>
 <script type="module">
     import {Timeline, Animation, ColorAnimation} from "./animation.js";
-    import {cubicBezier} from "./cubicBezier.js"
-    let linear = t => t;
-    let ease = cubicBezier(0.25, 0.1 ,0.25, 1)
+    import {ease,linear} from "./cubicBezier.js"
+    
 
     let el = document.getElementById('el');
     
     let t1 = new Timeline;
     // 设置transform的值需要有个变化
-    t1.add(new Animation(el.style, "transform", 0, 200, 5000, 0,ease, v => `translateX(${v}px)`))
+    t1.add(new Animation(el.style, "transform", 0, 200, 10000, 0,ease, v => `translateX(${v}px)`))
     t1.start();
 
     document.getElementById('pause-btn').addEventListener('click', ()=>{t1.pause()})

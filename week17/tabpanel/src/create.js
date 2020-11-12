@@ -1,4 +1,3 @@
-import {enableGesture} from './gesture'
 export function create(Cls, attributes, ...children) {
     let o
   
@@ -37,7 +36,9 @@ export function create(Cls, attributes, ...children) {
       this.children = []
       this.root = document.createTextNode(type)
     }
-  
+    getAttribute(name){
+      return 
+    }
     mountTo(parent) {
       parent.appendChild(this.root)
     }
@@ -52,18 +53,22 @@ export function create(Cls, attributes, ...children) {
     get style() {
       return this.root.style
     }
-  
+    get classList(){
+      return this.root.classList
+    }
+    set innerText(text){
+      return this.root.innerText = text
+    }
     setAttribute(name, value) {
       this.root.setAttribute(name, value)
       if(name.match(/^on([\s\S]+)$/)){
         let eventName = RegExp.$1.replace(/^[\s\S]/, c => c.toLocaleLowerCase())
         this.addEventListener(eventName,value)
       }
-      if(name == 'enableGesture'){
-        enableGesture(this.root)
-      }
     }
-  
+    getAttribute(name){
+      return this.root.getAttribute(name)
+    }
     appendChild(child) {
       this.children.push(child)
     }

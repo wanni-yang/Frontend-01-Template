@@ -1,7 +1,7 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlWebpackPluginConfig = {
-  title: 'carousel',
+  title: 'tabpanel',
   filename: 'index.html',
   template:'./src/index.html',
   inject:'body'
@@ -26,10 +26,6 @@ module.exports = {
             ]]
           }
         }
-      },
-      {
-        test: /\.css$/,
-        use:['css-loader']
       }
     ]
   },

@@ -1,4 +1,4 @@
-export function enableGesture(element) {
+function enableGesture(element) {
     let contexts = Object.create(null)
     let MOUSE_SYMBOL = Symbol('mouse')
     // 移动端关掉鼠标事件 移动端document.ontouchstart===null
