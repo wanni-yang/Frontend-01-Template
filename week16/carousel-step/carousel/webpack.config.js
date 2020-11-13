@@ -29,7 +29,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use:['css-loader']
+        use:{loader:require.resolve('./src/css-loader.js')}
       }
     ]
   },
