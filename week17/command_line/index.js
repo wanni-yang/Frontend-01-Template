@@ -12,7 +12,7 @@ function getChar() {
     })
   })
 }
-
+// n为向上移动几行
 function up(n = 1) {
   stdout.write('\033[' + n + 'A')
 }
@@ -43,7 +43,7 @@ async function select(choices) {
     if (i === selected) stdout.write('[x]' + choices[i] + '\n')
     else stdout.write('[ ]' + choices[i] + '\n')
   }
-
+  //光标回到最上面
   up(choices.length)
   right()
 
@@ -53,8 +53,9 @@ async function select(choices) {
       process.exit()
       break
     }
-
+    //  w up; s down
     if (char === 'w' && selected > 0) {
+      // x 跟随光标移动
       stdout.write(' ')
       left()
       selected--
