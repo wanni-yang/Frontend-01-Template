@@ -4,6 +4,6 @@
 
 [工具](https://www.yuque.com/yangxiaomie/zu16ge/pdmcy8)
 
-[YEOMAN Gen](./gen/generators/app/index.js)
+[YEOMAN generator](./genenator-mie/generators/app/index.js)
 
 [Command Line](./command_line/index.js)
