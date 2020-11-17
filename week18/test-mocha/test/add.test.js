@@ -1,11 +1,9 @@
-// const add = require('../src/add.js');
-// const assert = require('assert');
+import {add} from "../src/add.js"
+const assert = require('assert');
 
-import { add } from '../src/add.js';
-import assert from 'assert';
 
 describe('add', function () {
   it('add(3)(4) should be 7', function () {
-    assert.equal(add(3)(4), 7);
+    assert.equal(add(3, 4), 7);
   });
 });

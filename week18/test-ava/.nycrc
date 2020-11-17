@@ -6,5 +6,7 @@
   "exclude":[
     "**/*.spec.js"
   ],
-  "extends":"@istanbuljs/nyc-config-babel"
+  "extension":[
+    ".mjs"
+  ]
 }

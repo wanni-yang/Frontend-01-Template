@@ -6,3 +6,4 @@ package-lock.json
 *.pdf
 .gitignore
 dist/
+.nyc_output

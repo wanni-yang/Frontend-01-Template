@@ -9,7 +9,7 @@
             "name": "Run component",
             "type": "node",
             "request": "launch",
-            "program": "${workspaceRoot}/week14/component/main.js",
+            "program": "${workspaceRoot}/week18/babel/tools/run-vue.js",
             "stopOnEntry": false,
             "args": [],
             "cwd": "${workspaceRoot}",

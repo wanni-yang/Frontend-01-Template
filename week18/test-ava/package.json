@@ -4,22 +4,34 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha",
-    "coverage": "nyc mocha"
+    "test": "ava",
+    "coverage": "nyc ava"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "mocha": "^8.2.1",
     "nyc": "^15.1.0"
   },
   "devDependencies": {
+    "@ava/babel": "^1.0.1",
     "@babel/core": "^7.11.1",
     "@babel/preset-env": "^7.11.0",
     "@babel/register": "^7.10.5",
-    "@istanbuljs/nyc-config-babel": "^3.0.0",
+    "ava": "^3.13.0",
     "babel-loader": "^8.1.0",
-    "babel-plugin-istanbul": "^6.0.0",
-    "istanbul": "^0.4.5"
+    "babel-plugin-istanbul": "^6.0.0"
+  },
+  "ava": {
+    "files": [
+      "test/*.js"
+    ],
+    "require": [
+      "@babel/register"
+    ],
+    "babel": {
+      "testOptions": {
+        "babelrc": true
+      }
+    }
   }
 }
