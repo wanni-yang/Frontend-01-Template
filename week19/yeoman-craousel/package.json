@@ -1,5 +1,5 @@
 {
-  "name": "generator-toytool",
+  "name": "generator-carousel",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -7,8 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "MIT",
+  "license": "ISC",
   "dependencies": {
-    "yeoman-generator": "^4.11.0"
+    "yeoman-generator": "^4.12.0"
   }
 }
