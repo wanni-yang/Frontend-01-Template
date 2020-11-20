@@ -7,5 +7,6 @@
     - [carousel是通过yo carousel命令自动生成的代码结构](./yeoman-generator/carousel)
 - publish
     - [publish-server,接受一个HTTP请求，把上传的文件拷贝到server](./publish/publish-server)
+    - [publish-server-vanilla,纯净的服务，接受一个HTTP请求，把上传的文件拷贝到server](./publish/publish-server-vanilla)
     - [publish-tool,本地发布工具，发送文件上传请求到publish-server](./publish/publish-tool)
     - [server,生产环境的静态文件server](./publish/server)
