@@ -91,24 +91,22 @@
                     pattern[y][x] == 1 ? "O" :
                     "";
                 // j是x坐标 i是y坐标 绑定过多事件不影响性能，触发过多事件才会影响性能
-                cell.addEventListener("click", () => move(x, y));
+                cell.addEventListener("click", () => userMove(x, y));
                 board.appendChild(cell);
             }
         }
     }
     // 下子
-    function move(x, y) {
-        // 判断有没有值
-        if (pattern[y][x] !== 0) {
-            return
-        }
+    function userMove(x, y) {
         pattern[y][x] = currentValue;
+        if(check(pattern, currentValue)){
+            alert(currentValue == 2 ? "X is winner !" : "O is winner!")
+        }
         // 1变2 2变1，交替落子
         currentValue = 3 - currentValue;
         show();
         if (willWin(pattern, currentValue)) {
-            console.log(currentValue + "快赢了")
-            alert(currentValue + "快赢了")
+            alert(currentValue == 2 ? "X will win !" : "O will win!")
         }
         computerMove()
     }
@@ -192,14 +190,7 @@
         }
         return null;
     }
-    function userMove(x,y){
-        pattern[y][x] = currentValue;
-        if(check(pattern,currentValue)){
-            alert(currentValue == 2 ? "X is winner!" : "O is winner!");
-        }
-        currentValue = 3 - currentValue;
-        show();
-    }
+
     function computerMove(){
         let choice = bestChoice(pattern,currentValue);
         console.log(choice)
@@ -248,7 +239,7 @@
                 tmp[y][x] = currentValue;
                 // 对方的bestchoice最差的结果就是我方要走的
                 let opp = bestChoice(tmp,3 - currentValue) 
-                // opp.result是我方的，-opp.result是对方的最差结果
+                
                 if( -opp.result >= result){
                     point = [x, y];
                     result = - opp.result;
