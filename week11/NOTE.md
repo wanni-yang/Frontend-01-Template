@@ -6,4 +6,3 @@
     [代码](https://github.com/wanni-yang/Frontend-01-Template/tree/master/week11/traffic-light)
 2. 完成路径编辑器
     [代码](https://github.com/wanni-yang/Frontend-01-Template/tree/master/week11/findPath)
-3. 完成课上布置的练习，并将编程训练的寻路完成
