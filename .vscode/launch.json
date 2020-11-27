@@ -12,7 +12,7 @@
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "program": "${workspaceFolder}\\week19\\publish-server\\bin\\www"
+            "program": "${workspaceFolder}\\week12\\ast.js"
         }
     ]
 }
